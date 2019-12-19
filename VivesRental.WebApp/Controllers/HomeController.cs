@@ -30,7 +30,7 @@ namespace VivesRental.WebApp.Controllers
         {
             _tvm.nbrArticles = _articleService.All().Count;
             _tvm.nbrCustomers = _customerService.All().Count;
-            _tvm.nbrOrders = _orderService.All().Count;
+//            _tvm.nbrOrders = _orderService.All().Count;
             _tvm.nbrProducts = _productService.All().Count;
             return View(_tvm);
         }
