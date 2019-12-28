@@ -1,0 +1,82 @@
+.my-img-size {
+    width: 1rem;
+    height: 1rem;
+}
+
+.my-box-dotted {
+    border-color: black;
+    border-style: dotted;
+    margin-bottom: 15px;
+}
+
+.my-color-home {
+    background-color: khaki;
+}
+.my-color-maintenance {
+    background-color: darksalmon;
+}
+
+.my-color-article {
+    background-color:lawngreen;
+}
+
+.my-color-product {
+    background-color:lightblue;
+}
+
+.my-color-customer {
+    background-color:darkgrey;
+}
+
+.my-customer-first-name {
+    background-color: aqua;
+}
+
+.my-customer-last-name {
+    background-color: chocolate;
+}
+
+.my-customer-email {
+    background-color:bisque;
+}
+
+.my-customer-phone-number {
+    background-color:chartreuse;
+}
+
+.my-customer-table {
+    height: 20rem;
+    overflow-y: scroll;
+    background-color: beige;
+    padding: 0px;
+}
+.my-table-row {
+    padding: 5px 0px 5px 0px;
+}
+
+.my-btn {
+    text-align: center;
+    vertical-align: middle;
+    color: darkblue;
+    box-sizing: border-box;
+    border-style: none;
+    float: left;
+}
+
+.my-create-btn {
+    background-color: darkolivegreen;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.my-update-btn {
+    margin-left: 12%;
+    margin-right: 12%;
+    background-color: cornflowerblue;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.my-delete-btn {
+    background-color: indianred;
+    padding: 1rem 0rem 1rem 0rem;
+}
+

@@ -1,15 +1,17 @@
-﻿@model TestViewModel
+﻿@model HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
-
+<body class="my-color-home">
     <div class="text-center">
         <h1>Hier komt de website van VivesRental</h1>
 
         <H2 style="margin: 120px">WATCH THIS SPACE ...</H2>
 
-        <h4>Aantal items in article: @Model.nbrArticles</h4>
-        <h4>Aantal items in customer: @Model.nbrCustomers</h4>
-//        <h4>Aantal items in order: @Model.nbrOrders</h4>
-        <h4>Aantal items in product: @Model.nbrProducts</h4>
-</div>
+        <h4>Aantal items in article: @Model.NbrArticles</h4>
+        <h4>Aantal items in customer: @Model.NbrCustomers</h4>
+        <h4>Aantal items in order: @Model.NbrOrders</h4>
+        <h4>Aantal items in product: @Model.NbrProducts</h4>
+    </div>
+</body>
+

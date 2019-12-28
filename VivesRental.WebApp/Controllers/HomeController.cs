@@ -14,7 +14,7 @@ namespace VivesRental.WebApp.Controllers
         private readonly IOrderLineService _orderLineService;
         private readonly IOrderService _orderService;
         private readonly IProductService _productService;
-        private readonly TestViewModel _tvm = new TestViewModel();
+        private readonly HomeViewModel _homeViewModel = new HomeViewModel();
 
         public HomeController(ILogger<HomeController> logger, IArticleService articleService, ICustomerService customerService, IOrderLineService orderLineService, IOrderService orderService, IProductService productService)
         {
@@ -28,11 +28,11 @@ namespace VivesRental.WebApp.Controllers
 
         public IActionResult Index()
         {
-            _tvm.nbrArticles = _articleService.All().Count;
-            _tvm.nbrCustomers = _customerService.All().Count;
-//            _tvm.nbrOrders = _orderService.All().Count;
-            _tvm.nbrProducts = _productService.All().Count;
-            return View(_tvm);
+            _homeViewModel.NbrArticles = _articleService.All().Count;
+            _homeViewModel.NbrCustomers = _customerService.All().Count;
+            _homeViewModel.NbrOrders = _orderService.All().Count;
+            _homeViewModel.NbrProducts = _productService.All().Count;
+            return View(_homeViewModel);
         }
 
         public IActionResult Privacy()
