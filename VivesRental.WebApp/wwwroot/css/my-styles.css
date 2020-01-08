@@ -1,46 +1,16 @@
-.my-img-size {
-    width: 1rem;
-    height: 1rem;
-}
-
-.my-box-dotted {
-    border-color: black;
-    border-style: dotted;
-    margin-bottom: 15px;
-}
-
-.my-color-home {
-    background-color: khaki;
-}
-.my-color-maintenance {
-    background-color: darksalmon;
-}
-
-.my-color-article {
-    background-color:lawngreen;
-}
-
-.my-color-product {
-    background-color:lightblue;
-}
-
-.my-color-customer {
-    background-color:darkgrey;
-}
-
-.my-customer-first-name {
+.customer-first-name {
     background-color: aqua;
 }
 
-.my-customer-last-name {
+.customer-last-name {
     background-color: chocolate;
 }
 
-.my-customer-email {
+.customer-last-email {
     background-color:bisque;
 }
 
-.my-customer-phone-number {
+.customer-last-phone-number {
     background-color:chartreuse;
 }
 

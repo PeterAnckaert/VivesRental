@@ -1,71 +1,178 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿:root {
+    --dark: #000;
+    --light: #fff;
+    --check-in: #0d8;
+    --check-out: dodgerblue;
+    --home: cornflowerblue;
+    --maintenance: tomato;
+    --article: goldenrod;
+    --product: darkorange;
+    --customer: chocolate;
+    --title-side: teal;
+    --shadow: 3px 5px rgba(104, 104, 104, 80);
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
 html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+    box-sizing: border-box;
+    color: var(--dark);
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    background: #ccc;
+    margin: 10px 20px;
+    line-height: 1.4;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+a {
+    color: var(--light);
+    text-decoration: none;
+    box-shadow: var(--shadow);
+}
+
+    a:hover {
+        color: var(--dark);
+        text-decoration: none;
+    }
+
+.btn {
+    display: block;
+    background: var(--dark);
+    color: var(--light);
+    padding: 0.6rem 0rem;
+    margin: 0px;
+    border-radius: .9rem;
+}
+
+.btn-check-in {
+    background: var(--check-in);
+}
+
+.btn-check-out {
+    background: var(--check-out);
+}
+
+.btn-maintenance {
+    background: var(--maintenance);
+}
+
+.btn-article {
+    background: var(--article);
+}
+
+.btn-product {
+    background: var(--product);
+}
+
+.btn-customer {
+    background: var(--customer);
+}
+
+.btn:hover {
+    background: var(--light);
+    color: var(--dark);
+}
+
+.title-side {
+    color: var(--title-side);
+    font-size: 5rem;
+    font-weight: bolder;
+}
+.wrapper {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 500px 1fr;
+    grid-template-areas: "top top" "side content" ". footer";
+}
+
+.box-dotted {
+    border-color: black;
+    border-style: dotted;
+    margin-bottom: 15px;
+}
+
+.color-check-in {
+    background-color: var(--check-in);
+}
+
+.color-check-out {
+    background-color: var(--check-out);
+}
+
+.color-maintenance {
+    background-color: var(--maintenance);
+}
+
+.color-customer {
+    background-color: var(--customer);
+}
+
+.color-product {
+    background-color: var(--product);
+}
+
+.color-article {
+    background-color: var(--article);
+}
+
+top-menu {
+    grid-area: top;
+}
+
+    top-menu ul {
+        display: grid;
+        list-style: none;
+        grid-template-columns: 2fr repeat(3, 1fr);
+        grid-gap: 10px;
+        align-items: center;
+    }
+
+side-menu {
+    grid-area: side;
+    background: blanchedalmond;
+    border-radius: 2rem;
+    padding: 2rem 0.7rem;
+    margin: 0px;
+}
+
+    side-menu ul {
+        display: grid;
+        list-style: none;
+        grid-template-columns: 1fr;
+        grid-gap: 10px;
+    }
+
+content {
+    display: grid;
+    grid-area: content;
+}
+
+footer {
+    grid-area: footer;
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+@media(max-width: 1000px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+        grid-template-areas: "top" "content" "side" "footer";
+    }
+
+    top-menu ul {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    side-menu {
+        display: none;
+    }
+}
+
+@media(max-width: 700px) {
+    top-menu ul {
+        grid-template-columns: 1fr;
+    }
+
+    * {
+        font-size: 1.2rem;
+    }
 }

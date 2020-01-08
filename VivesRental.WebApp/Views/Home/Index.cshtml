@@ -2,16 +2,32 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-<body class="my-color-home">
-    <div class="text-center">
-        <h1>Hier komt de website van VivesRental</h1>
-
-        <H2 style="margin: 120px">WATCH THIS SPACE ...</H2>
-
-        <h4>Aantal items in article: @Model.NbrArticles</h4>
-        <h4>Aantal items in customer: @Model.NbrCustomers</h4>
-        <h4>Aantal items in order: @Model.NbrOrders</h4>
-        <h4>Aantal items in product: @Model.NbrProducts</h4>
-    </div>
-</body>
+<div class="content-home text-center">
+    <section class="top-container">
+        <header class="showcase">
+            <h1>Welkom op de website van VivesRental</h1>
+            <p>Watch this space!!!</p>
+        </header>
+        <a class="box box-articles" asp-controller="Maintenance" asp-action="Articles">
+            <i class="fas fa-gift fa-2x"></i>
+            <p>Aantal artikelen</p>
+            <p class="aantal">@Model.NbrArticles</p>
+        </a>
+        <a class="box box-customers" asp-controller="Maintenance" asp-action="Customers">
+            <i class="fas fa-user fa-2x"></i>
+            <p>Aantal klanten</p>
+            <p class="aantal">@Model.NbrCustomers</p>
+        </a>
+        <div class="box box-orders" asp-controller="Home" asp-action="Index">
+            <i class="fas fa-shopping-cart fa-2x"></i>
+            <p>Aantal uitleningen</p>
+            <p class="aantal">@Model.NbrOrders</p>
+        </div>
+        <a class="box box-products" asp-controller="Maintenance" asp-action="Products">
+            <i class="fas fa-box-open fa-2x"></i>
+            <p>Aantal producten</p>
+            <p class="aantal">@Model.NbrProducts</p>
+        </a>
+    </section>
+</div>
 

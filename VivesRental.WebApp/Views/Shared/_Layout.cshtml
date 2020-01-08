@@ -3,67 +3,98 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VivesRental.WebApp</title>
+    <title>@ViewData["Title"] - VivesRental</title>
+    <script src="https://kit.fontawesome.com/98ccb72d34.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/home.css" />
     <link rel="stylesheet" href="~/css/my-styles.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light my-header">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img class="my-img-size" src="~/images/Home.png" alt="" />VivesRental Catcher</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">TEST1</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">TEST2</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">TEST3</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">TEST4</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Maintenance" asp-action="Index">Beheer</a>
-                        </li>
-                        <li class="dropdown">
-                            <a class="btn dropdown-toggle nav-link text-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Beheerpagina's
+    <div class="wrapper">
+        <top-menu>
+            <ul>
+                <li>
+                    <a class="btn" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-home fa-5x"></i>
+                        <text class="h4">VivesRental</text>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-check-in" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-download fa-2x"></i>
+                        <p>Inchecken</p>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-check-out" asp-controller="Home" asp-action="error">
+                        <i class="fas fa-upload fa-2x"></i>
+                        <p>Uitchecken</p>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
+                        <i class="fas fa-cogs fa-2x"></i>
+                        <p>Beheer</p>
+                    </a>
+                </li>
+            </ul>
+        </top-menu>
+        <side-menu>
+            <p class="title-side"> Springplank</p>
+            <ul>
+                <li>
+                    <a class="btn btn-check-in" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-download"></i>
+                        <text>Inchecken</text>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-check-out" asp-controller="Home" asp-action="error">
+                        <i class="fas fa-upload"></i>
+                        <text>Uitchecken</text>
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
+                        <i class="fas fa-cogs"></i>
+                        <text>Beheer</text>
+                    </a>
+                    <ul>
+                        <li style="margin-top: 1rem;">
+                            <a class="btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
+                                <i class="fas fa-user"></i>
+                                <text>Klantenbeheer</text>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item my-color-article" asp-area="" asp-controller="Maintenance" asp-action="Articles">Artikelen</a>
-                                <a class="dropdown-item my-color-product" asp-area="" asp-controller="Maintenance" asp-action="Products">Producten</a>
-                                <a class="dropdown-item my-color-customer" asp-area="" asp-controller="Maintenance" asp-action="Customers">Klanten</a>
-                                <a class="dropdown-item">Something else here</a>
-                            </div>
+                        </li>
+                        <li>
+                            <a class="btn btn-product" asp-controller="Maintenance" asp-action="Products">
+                                <i class="fas fa-box-open"></i>
+                                <text>Productbeheer</text>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="btn btn-article" asp-controller="Maintenance" asp-action="Articles">
+                                <i class="fas fa-gift"></i>
+                                <text>Artikelbeheer</text>
+                            </a>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+                </li>
+            </ul>
+        </side-menu>
+        <content>
             @RenderBody()
-        </main>
+        </content>
+        <footer>
+            <div>
+                &copy; 2019 - VivesRental Catcher - Made by <b>Peter Anckaert</b>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2019 - VivesRental.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

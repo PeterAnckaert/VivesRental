@@ -97,6 +97,7 @@ namespace VivesRental.Services
             return null;
         }
 
+        [Obsolete("Edit has been replaced by the UpdateStatus method. Use the UpdateStatus method in stead.")]
         public Article Edit(Article entity)
         {
             if (!entity.IsValid())
@@ -123,6 +124,22 @@ namespace VivesRental.Services
             return null;
         }
 
+        public bool UpdateStatus(Guid articleId, ArticleStatus status)
+        {
+            //Get Product from unitOfWork
+            var article = _unitOfWork.Articles.Get(articleId);
+            if (article == null)
+            {
+                return false;
+            }
+
+            //Only update the properties we want to update
+            article.Status = status;
+
+            var numberOfObjectsUpdated = _unitOfWork.Complete();
+            return numberOfObjectsUpdated > 0;
+        }
+
         public bool Remove(Guid id)
         {
             var article = _unitOfWork.Articles.Get(id, new ArticleIncludes { OrderLines = true });
@@ -140,5 +157,6 @@ namespace VivesRental.Services
             var numberOfObjectsUpdated = _unitOfWork.Complete();
             return numberOfObjectsUpdated > 0;
         }
+        
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using VivesRental.Model;
 using VivesRental.Repository.Core;
 using VivesRental.Repository.Includes;
+using VivesRental.Repository.Results;
 using VivesRental.Services.Contracts;
 using VivesRental.Services.Extensions;
 
@@ -115,6 +116,32 @@ namespace VivesRental.Services
 
             var numberOfObjectsUpdated = _unitOfWork.Complete();
             return numberOfObjectsUpdated > 0;
+        }
+
+        public bool GenerateArticles(Guid productId, int amount)
+        {
+            if (amount <= 0)
+                return false;
+
+            for (int i = 0; i < amount; i++)
+            {
+                var article = new Article
+                {
+                    ProductId = productId
+                };
+                _unitOfWork.Articles.Add(article);
+            }
+
+            var numberOfObjectsUpdated = _unitOfWork.Complete();
+            return numberOfObjectsUpdated > 0;
+        }
+
+        public IList<ProductResult> GetAvailableProductResults()
+        {
+            return _unitOfWork.Products
+                .FindResult(p => p.Articles.All(a => a.Status == ArticleStatus.Normal &&
+                                                   a.OrderLines.All(ol => ol.ReturnedAt.HasValue)))
+                .ToList();
         }
     }
 }

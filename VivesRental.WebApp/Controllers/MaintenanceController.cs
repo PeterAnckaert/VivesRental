@@ -58,14 +58,35 @@ namespace VivesRental.WebApp.Controllers
 
         public IActionResult DeleteCustomer()
         {
-            _customerService.Remove(_customerViewModel.CurrentCustomer.Id);
+            if (_customerViewModel.CurrentCustomer != null)
+            {
+                _customerService.Remove(_customerViewModel.CurrentCustomer.Id);
+            }
+
+            _customerViewModel.CurrentCustomer = null;
             return RedirectToAction("Customers");
+
         }
 
         public IActionResult CreateCustomer(Customer customer)
         {
-            _customerService.Create(customer);
+            if (customer.Id != Guid.Empty)
+            {
+                _customerService.Create(customer);
+                _customerViewModel.CurrentCustomer = null;
+            }
+
             return RedirectToAction("Customers");
         }
+        public IActionResult UpdateCustomer(Customer customer)
+        {
+            if (customer.Id != Guid.Empty)
+            {
+                _customerService.Edit(customer);
+                _customerViewModel.CurrentCustomer = null;
+            }
+            return RedirectToAction("Customers");
+        }
+
     }
 }
