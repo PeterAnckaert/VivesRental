@@ -1,0 +1,45 @@
+﻿maintenance .btn {
+    margin: 1rem;
+}
+
+maintenance h1 {
+    text-align: center;
+    padding: 3rem;
+}
+
+maintenance text {
+    font-size: 3rem;
+    padding: 0 7rem;
+}
+
+textarea {
+    resize: none;
+}
+
+.create-btn {
+    background-color: darkolivegreen;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.update-btn {
+    margin-left: 12%;
+    margin-right: 12%;
+    background-color: cornflowerblue;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.delete-btn {
+    background-color: indianred;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.detail-btn {
+    background-color:gold;
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.wis-btn {
+    background-color: var(--light);
+    padding: 1rem 0rem 1rem 0rem;
+}
+

@@ -1,6 +1,18 @@
 ﻿@{
     ViewData["Title"] = "Beheer";
 }
-<body class="color-maintenance">
-    <h1>Index van beheer</h1>
-</body>
+<maintenance class="color-maintenance">
+    <h1>Beheerpagina</h1>
+    <a class="btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
+        <i class="fas fa-user fa-5x"></i>
+        <text>Klantenbeheer</text>
+    </a>
+    <a class="btn btn-product" asp-controller="Maintenance" asp-action="Products">
+        <i class="fas fa-box-open fa-5x"></i>
+        <text>Productbeheer</text>
+    </a>
+    <a class="btn btn-article" asp-controller="Maintenance" asp-action="Articles">
+        <i class="fas fa-gift fa-5x"></i>
+        <text>Artikelbeheer</text>
+    </a>
+</maintenance>

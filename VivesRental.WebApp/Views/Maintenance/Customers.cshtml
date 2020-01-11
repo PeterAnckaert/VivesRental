@@ -5,33 +5,89 @@
 <body class="color-customer">
     <div class="container">
         <div class="row" style="margin-bottom: 1rem;">
-            <div class="h1">Lijst van alle klanten<div>dq</div></div>
+            <div class="h1">Lijst van alle klanten</div>
         </div>
         <div class="row">
-            <div class="table my-customer-table">
+            <div class="table">
+
+                <sort-bar>
+                    <div class="col-12">
+                        <div class="col-2">
+                            <a href="SortCustomers?sortkey=@SortKey.FirstNameAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortCustomers?sortkey=@SortKey.FirstNameDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Voornaam</div>
+                        </div>
+                        <div class="col-3">
+                            <a href="SortCustomers?sortkey=@SortKey.LastNameAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortCustomers?sortkey=@SortKey.LastNameDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Achternaam</div>
+                        </div>
+                        <div class="col-4">
+                            <a href="SortCustomers?sortkey=@SortKey.EmailAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortCustomers?sortkey=@SortKey.EmailDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Emailadres</div>
+                        </div>
+                        <div class="col-3">
+                            <a href="SortCustomers?sortkey=@SortKey.PhoneNumberAsc">
+                                <i class="fas fa-sort-numeric-down"></i>
+                            </a>
+                            <a href="SortCustomers?sortkey=@SortKey.PhoneNumberDesc">
+                                <i class="fas fa-sort-numeric-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Telefoonnummer</div>
+                        </div>
+                    </div>
+                </sort-bar>
+
                 @foreach (var customer in Model.Customers)
                 {
-                    <form method="POST" class="col-12" asp-action="SetCurrentCustomer">
+                    <form method="GET" class="col-12" asp-action="SetCurrentCustomer">
                         <partial name="CustomerPartial" model="customer" />
                     </form>
                 }
             </div>
         </div>
-        <div class="row" style="margin-bottom: 1rem;">
-            <div class="h1">Vul hier alle aanpassingen in</div>
-        </div>
-        <form method="post" class="col-12">
+        <form method="GET" class="col-12">
+            <div class="row" style="margin-bottom: 1rem;">
+                <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+                <div class="col-2">
+                    @if (Model.CurrentCustomer != null)
+                    {
+                        <input type="submit" value="Details" asp-action="CustomerDetail" class="col-12 detail-btn" />
+                    }
+                </div>
+                <div class="col-2">
+                    <input type="submit" value="Wis" asp-action="ClearCurrentCustomer" class="col-12 wis-btn" />
+                </div>
+            </div>
+</form>
+        <form method="POST" class="col-12">
             <div class="row box-dotted form-group">
-                <input type="hidden" name="Id" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.Id.ToString())" class="col-2 my-btn my-table-row customer-first-name" />
-                <input type="text" name="FirstName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.FirstName)" class="col-2 my-btn my-table-row customer-first-name" />
-                <input type="text" name="LastName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.LastName)" class="col-3 my-btn my-table-row customer-last-name" />
-                <input type="text" name="Email" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.Email)" class="col-4 my-btn my-table-row customer-last-email" />
-                <input type="text" name="PhoneNumber" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.PhoneNumber)" class="col-3 my-btn my-table-row customer-last-phone-number" />
+                <input type="hidden" name="Id" value="@(Model.CurrentCustomer == null ? "" : Model.CurrentCustomer.Id.ToString())" />
+                <input type="text" name="FirstName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.FirstName)" class="col-2 my-button table-row customer-first-name" />
+                <input type="text" name="LastName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.LastName)" class="col-3 my-button table-row customer-last-name" />
+                <input type="email" name="Email" value="@(Model.CurrentCustomer == null ? "no_email@vives.rental" : Model.CurrentCustomer.Email)" class="col-4 my-button table-row customer-last-email" />
+                <input type="tel" name="PhoneNumber" value="@(Model.CurrentCustomer == null ? "000/000000" : Model.CurrentCustomer.PhoneNumber)" class="col-3 my-button table-row customer-last-phone-number" />
             </div>
             <div class="row">
-                <input type="submit" value="Maak nieuwe klant aan" asp-action="CreateCustomer" class="col-3 my-create-btn" />
-                <input type="submit" value="Pas gegevens aan" asp-action="UpdateCustomer" class="col-3 my-update-btn" />
-                <input type="submit" value="Verwijder klant" asp-action="DeleteCustomer" class="col-3 my-delete-btn" />
+                <input type="submit" value="Maak nieuwe klant aan" asp-action="CreateCustomer" class="col-3 create-btn" />
+                @if (Model.CurrentCustomer != null)
+                {
+                    <input type="submit" value="Pas gegevens aan" asp-action="UpdateCustomer" class="col-3 update-btn" />
+                    <input type="submit" value="Verwijder klant" asp-action="DeleteCustomer" class="col-3 delete-btn" />
+                }
             </div>
         </form>
 

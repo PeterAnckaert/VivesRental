@@ -1,7 +1,108 @@
-﻿@model MaintenanceViewModel
+﻿@model ProductViewModel
 @{
-    ViewData["Title"] = "Product";
+    ViewData["Title"] = "Productbeheer";
 }
-    <body class="color-product">
-        <h1>Product</h1>
-    </body>
+<body class="color-product">
+    <div class="container">
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1">Lijst van alle producten</div>
+        </div>
+        <div class="row">
+            <div class="table table">
+
+                <sort-bar>
+                    <div class="col-12">
+                        <div class="col-2">
+                            <a href="SortProducts?sortkey=@SortKey.NameAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortProducts?sortkey=@SortKey.NameDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Naam</div>
+                        </div>
+                        <div class="col-4">
+                            <a href="SortProducts?sortkey=@SortKey.DescriptionAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortProducts?sortkey=@SortKey.DescriptionDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Omschrijving</div>
+                        </div>
+                        <div class="col-2">
+                            <a href="SortProducts?sortkey=@SortKey.ManufacturerAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortProducts?sortkey=@SortKey.ManufacturerDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Fabrikant</div>
+                        </div>
+                        <div class="col-2">
+                            <a href="SortProducts?sortkey=@SortKey.PublisherAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortProducts?sortkey=@SortKey.PublisherDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Uitgever</div>
+                        </div>
+                        <div class="col-1">
+                            <div>&nbsp;Aantal dagen</div>
+                        </div>
+                        <div class="col-1">
+                            <div>&nbsp;Aantal artikelen</div>
+                        </div>
+                    </div>
+                </sort-bar>
+
+                @foreach (var product in Model.Products)
+                {
+                    <form method="GET" class="col-12" asp-action="SetCurrentProduct">
+                        <partial name="ProductPartial" model="product" />
+                    </form>
+                }
+            </div>
+        </div>
+        <form method="GET" class="col-12">
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+            <div class="col-2">
+                @if (Model.CurrentProduct != null)
+                {
+                    <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
+                    <input type="submit" value="Details" asp-action="ProductDetail" class="col-12 detail-btn" />
+                }
+            </div>
+            <div class="col-2">
+                <input type="submit" value="Wis" asp-action="ClearCurrentProduct" class="col-12 wis-btn" />
+            </div>
+        </div>
+        </form>
+        <form method="POST" class="col-12">
+            <div class="box-dotted form-group">
+                    <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
+                    <label class="col-2">Naam:</label>
+                    <input type="text" name="Name" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Name)" class="col-9 product-name" />
+                    <label class="col-2" style="vertical-align: top;">Omschrijving:</label>
+                    <textarea name="Description" rows="5" class="col-9 product-description">@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Description)</textarea>
+                    <label class="col-2">Fabrikant:</label>
+                    <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 product-manufacturer" />
+                    <label class="col-2">Uitgever:</label>
+                    <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 product-publisher" />
+                    <label class="col-2">Aantal dagen:</label>
+                    <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 product-expires" />
+                </div>
+                <div class="row">
+                    <input type="submit" value="Maak nieuwe product aan" asp-action="CreateProduct" class="col-3 create-btn" />
+                    @if (Model.CurrentProduct != null)
+                    {
+                        <input type="submit" value="Pas product aan" asp-action="UpdateProduct" class="col-3 update-btn" />
+                        <input type="submit" value="Verwijder product" asp-action="DeleteProduct" class="col-3 delete-btn" />
+                    }
+                </div>
+            </form>
+
+</div>
+</body>

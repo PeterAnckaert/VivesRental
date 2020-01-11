@@ -8,11 +8,7 @@
 .top-container {
     display: grid;
     grid-gap: 20px;
-    grid-template-areas:
-                       "showcase showcase box-orders"
-                       "showcase showcase box-customers"
-                       "showcase showcase box-products"
-                       "showcase showcase box-articles";
+    grid-template-areas: "showcase showcase box-orders" "showcase showcase box-customers" "showcase showcase box-products" "showcase showcase box-articles";
 }
 
 a:hover {
@@ -25,23 +21,26 @@ a:hover {
     background: url("/images/home.jpg");
     background-size: cover;
     background-position: center;
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: var(--light);
 }
 
-.showcase h1 {
-    font-size: 5rem;
-    font-family: monospace;
-    font-weight: bold;
-}
+    .showcase h1 {
+        font-size: 5rem;
+        font-family: monospace;
+        font-weight: bold;
+        color: var(--home);
+        text-shadow: -3px 0 var(--dark), 0 3px var(--dark), 3px 0 var(--dark), 0 -3px var(--dark);
+    }
 
-.showcase p {
-    font-size: 2rem;
-    margin-top: 2rem;
-}
+
+    .showcase p {
+        font-size: 2rem;
+        margin-top: 2rem;
+    }
 
 .box {
     display: grid;
@@ -51,10 +50,10 @@ a:hover {
     padding: 0.5rem 0.5rem;
 }
 
-.box p {
-    margin: 0;
-    padding: 0;
-}
+    .box p {
+        margin: 0;
+        padding: 0;
+    }
 
 .aantal {
     font-size: 3rem;
@@ -82,11 +81,7 @@ a:hover {
 
 @media(max-width: 1200px) {
     .top-container {
-        grid-template-areas: 
-                           "showcase showcase"
-                           "showcase showcase"
-                           "box-orders box-customers"
-                           "box-products box-articles";
+        grid-template-areas: "showcase showcase" "showcase showcase" "box-orders box-customers" "box-products box-articles";
     }
 
     .showcase p {
@@ -104,12 +99,7 @@ a:hover {
 
 @media(max-width: 700px) {
     .top-container {
-        grid-template-areas: 
-                           "showcase"
-                           "box-orders"
-                           "box-customers"
-                           "box-products"
-                           "box-articles";
+        grid-template-areas: "showcase" "box-orders" "box-customers" "box-products" "box-articles";
     }
 
     .showcase p {
@@ -119,5 +109,4 @@ a:hover {
     aantal {
         font-size: 1.5rem;
     }
-
 }

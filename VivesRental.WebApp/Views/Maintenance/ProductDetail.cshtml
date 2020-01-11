@@ -1,0 +1,39 @@
+﻿@model VivesRental.Model.Product
+@{
+    ViewData["Title"] = "Productdetail";
+}
+
+<div class="row">
+    <div class="col-3 h1">Detail van</div>
+    <div class="col-9 h3">@Model.Id</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Naam:</div>
+    <div>@Model.Name</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Omschrijving:</div>
+    <div>@Model.Description</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Fabrikant:</div>
+    <div>@Model.Manufacturer</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Uitgever:</div>
+    <div>@Model.Publisher</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Aantal dagen:</div>
+    <div>@Model.RentalExpiresAfterDays</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Aantal artikelen:</div>
+    <div>@Model.Articles.Count</div>
+</div>
+@{/*
+        @foreach (var order in Model.Articles)
+        {
+            <partial name="OrderPartial" model="order"/>
+        }
+    */}

@@ -1,0 +1,35 @@
+﻿@model VivesRental.Model.Customer
+@{
+    ViewData["Title"] = "Klantendetail";
+}
+
+<div class="row">
+    <div class="col-3 h1">Detail van</div>
+    <div class="col-9 h3">@Model.Id</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Voornaam:</div>
+    <div>@Model.FirstName</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Achternaam:</div>
+    <div>@Model.LastName</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Emailadres:</div>
+    <div>@Model.Email</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Telefoonnummer:</div>
+    <div>@Model.PhoneNumber</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Aantal uitleningen:</div>
+    <div>@Model.Orders.Count</div>
+</div>
+
+@foreach (var order in Model.Orders)
+{
+    <partial name="OrderPartial" model="order" />
+}
+

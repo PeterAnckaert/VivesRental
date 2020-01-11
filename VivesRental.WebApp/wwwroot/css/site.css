@@ -90,6 +90,46 @@ a {
     margin-bottom: 15px;
 }
 
+.table {
+    height: 20rem;
+    overflow-y: scroll;
+    background-color: burlywood;
+    padding: 0px;
+}
+
+.table-row {
+    padding: 5px 0px 5px 0px;
+}
+
+.my-button {
+    text-align: center;
+    vertical-align: middle;
+    color: darkblue;
+    box-sizing: border-box;
+    border-style: none;
+    float: left;
+    height: 2rem;
+}
+
+sort-bar div {
+    display: flex;
+    margin: auto;
+}
+
+sort-bar div a {
+    color: lightgrey;
+    box-shadow: none;
+    background-color: darkred;
+    margin: 1px;
+    padding: 0px 3px;
+    border-radius: 25%;
+    vertical-align: middle;
+}
+
+sort-bar div div {
+    font-weight: bold;
+}
+
 .color-check-in {
     background-color: var(--check-in);
 }
