@@ -16,6 +16,13 @@ textarea {
     resize: none;
 }
 
+.error-field {
+    background-color: crimson;
+    color: yellowgreen;
+    width:100%;
+    padding: 1rem;
+}
+
 .create-btn {
     background-color: darkolivegreen;
     padding: 1rem 0rem 1rem 0rem;

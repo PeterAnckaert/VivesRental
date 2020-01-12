@@ -72,7 +72,15 @@
                     <input type="submit" value="Wis" asp-action="ClearCurrentCustomer" class="col-12 wis-btn" />
                 </div>
             </div>
-</form>
+        </form>
+        @if (Model.Error != String.Empty)
+        {
+            <div class="error-field">
+                <i class="fas fa-exclamation fa-2x"></i>
+                <label class="h4" style="padding: 0 1rem;">@Model.Error</label>
+                <i class="fas fa-exclamation fa-2x"></i>
+            </div>
+        }
         <form method="POST" class="col-12">
             <div class="row box-dotted form-group">
                 <input type="hidden" name="Id" value="@(Model.CurrentCustomer == null ? "" : Model.CurrentCustomer.Id.ToString())" />
@@ -90,7 +98,6 @@
                 }
             </div>
         </form>
-
     </div>
 </body>
 

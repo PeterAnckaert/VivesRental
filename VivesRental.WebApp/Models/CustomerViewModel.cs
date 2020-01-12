@@ -6,10 +6,9 @@ using VivesRental.Model;
 
 namespace VivesRental.WebApp.Models
 {
-    public class CustomerViewModel
+    public class CustomerViewModel : CommonViewModel
     {
         public IOrderedEnumerable<Customer> Customers { get; set; }
         public Customer CurrentCustomer { get; set; }
-        public SortKey SortKey { get; set; }
     }
 }

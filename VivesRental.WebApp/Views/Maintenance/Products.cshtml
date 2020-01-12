@@ -66,43 +66,51 @@
             </div>
         </div>
         <form method="GET" class="col-12">
-        <div class="row" style="margin-bottom: 1rem;">
-            <div class="h1 col-8">Vul hier alle aanpassingen in</div>
-            <div class="col-2">
-                @if (Model.CurrentProduct != null)
-                {
-                    <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
-                    <input type="submit" value="Details" asp-action="ProductDetail" class="col-12 detail-btn" />
-                }
-            </div>
-            <div class="col-2">
-                <input type="submit" value="Wis" asp-action="ClearCurrentProduct" class="col-12 wis-btn" />
-            </div>
-        </div>
-        </form>
-        <form method="POST" class="col-12">
-            <div class="box-dotted form-group">
-                    <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
-                    <label class="col-2">Naam:</label>
-                    <input type="text" name="Name" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Name)" class="col-9 product-name" />
-                    <label class="col-2" style="vertical-align: top;">Omschrijving:</label>
-                    <textarea name="Description" rows="5" class="col-9 product-description">@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Description)</textarea>
-                    <label class="col-2">Fabrikant:</label>
-                    <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 product-manufacturer" />
-                    <label class="col-2">Uitgever:</label>
-                    <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 product-publisher" />
-                    <label class="col-2">Aantal dagen:</label>
-                    <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 product-expires" />
-                </div>
-                <div class="row">
-                    <input type="submit" value="Maak nieuwe product aan" asp-action="CreateProduct" class="col-3 create-btn" />
+            <div class="row" style="margin-bottom: 1rem;">
+                <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+                <div class="col-2">
                     @if (Model.CurrentProduct != null)
                     {
-                        <input type="submit" value="Pas product aan" asp-action="UpdateProduct" class="col-3 update-btn" />
-                        <input type="submit" value="Verwijder product" asp-action="DeleteProduct" class="col-3 delete-btn" />
+                        <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
+                        <input type="submit" value="Details" asp-action="ProductDetail" class="col-12 detail-btn" />
                     }
                 </div>
-            </form>
+                <div class="col-2">
+                    <input type="submit" value="Wis" asp-action="ClearCurrentProduct" class="col-12 wis-btn" />
+                </div>
+            </div>
+        </form>
+        @if (Model.Error != String.Empty)
+        {
+            <div class="error-field">
+                <i class="fas fa-exclamation fa-2x"></i>
+                <label class="h4" style="padding: 0 1rem;">@Model.Error</label>
+                <i class="fas fa-exclamation fa-2x"></i>
+            </div>
+        }
+        <form method="POST" class="col-12">
+            <div class="box-dotted form-group">
+                <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
+                <label class="col-2">Naam:</label>
+                <input type="text" name="Name" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Name)" class="col-9 product-name" />
+                <label class="col-2" style="vertical-align: top;">Omschrijving:</label>
+                <textarea name="Description" rows="5" class="col-9 product-description">@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Description)</textarea>
+                <label class="col-2">Fabrikant:</label>
+                <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 product-manufacturer" />
+                <label class="col-2">Uitgever:</label>
+                <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 product-publisher" />
+                <label class="col-2">Aantal dagen:</label>
+                <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 product-expires" />
+            </div>
+            <div class="row">
+                <input type="submit" value="Maak nieuwe product aan" asp-action="CreateProduct" class="col-3 create-btn" />
+                @if (Model.CurrentProduct != null)
+                {
+                    <input type="submit" value="Pas product aan" asp-action="UpdateProduct" class="col-3 update-btn" />
+                    <input type="submit" value="Verwijder product" asp-action="DeleteProduct" class="col-3 delete-btn" />
+                }
+            </div>
+        </form>
 
-</div>
+    </div>
 </body>

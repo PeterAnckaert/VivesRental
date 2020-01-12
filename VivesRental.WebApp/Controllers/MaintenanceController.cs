@@ -9,7 +9,6 @@ using VivesRental.WebApp.Models;
 
 namespace VivesRental.WebApp.Controllers
 {
-
     public class MaintenanceController : Controller
     {
         private readonly ILogger<MaintenanceController> _logger;
@@ -32,6 +31,31 @@ namespace VivesRental.WebApp.Controllers
             _productService = productService;
         }
 
+        //IS NOG NIET VOLLEDIG JUIST. GEEN BERICHT BIJ 2 FOUTEN NA ELKAAR
+        protected void ProcessError(CommonViewModel viewModel)
+        {
+            if (viewModel == null)
+            {
+                return;
+            }
+
+            if (viewModel.Error == null)
+            {
+                viewModel.Error = String.Empty;
+            }
+
+            if (viewModel.Error != String.Empty && viewModel.IsErrorShown)
+            {
+                viewModel.IsErrorShown = false;
+                viewModel.Error = String.Empty;
+            }
+
+            if (viewModel.Error != String.Empty && !viewModel.IsErrorShown)
+            {
+                viewModel.IsErrorShown = true;
+            }
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -41,6 +65,7 @@ namespace VivesRental.WebApp.Controllers
         [HttpGet]
         public IActionResult Articles()
         {
+            ProcessError(null);
             return View();
         }
 
@@ -48,6 +73,7 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult Products()
         {
             var products = _productService.All(new ProductIncludes { Articles = true });
+
             switch (_productViewModel.SortKey)
             {
                 case SortKey.NameAsc:
@@ -78,6 +104,9 @@ namespace VivesRental.WebApp.Controllers
                     _productViewModel.Products = products.OrderBy(ok => ok.Name);
                     break;
             }
+
+            ProcessError(_productViewModel);
+
             return View(_productViewModel);
         }
 
@@ -116,6 +145,9 @@ namespace VivesRental.WebApp.Controllers
                     _customerViewModel.Customers = customers.OrderBy(ok => ok.FirstName);
                     break;
             }
+
+            ProcessError(_customerViewModel);
+
             return View(_customerViewModel);
         }
 
@@ -131,10 +163,19 @@ namespace VivesRental.WebApp.Controllers
         {
             if (_customerViewModel.CurrentCustomer != null)
             {
-                _customerService.Remove(_customerViewModel.CurrentCustomer.Id);
+                if (_customerService.Remove(_customerViewModel.CurrentCustomer.Id) == false)
+                {
+                    _customerViewModel.Error = "Het verwijderen van de klant is mislukt";
+                }
+                else
+                {
+                    _customerViewModel.CurrentCustomer = null;
+                }
             }
-
-            _customerViewModel.CurrentCustomer = null;
+            else
+            {
+                _customerViewModel.Error = "Geen klant geselecteerd om te verwijderen";
+            }
             return RedirectToAction("Customers");
 
         }
@@ -142,8 +183,32 @@ namespace VivesRental.WebApp.Controllers
         [HttpPost]
         public IActionResult CreateCustomer(Customer customer)
         {
-            _customerService.Create(customer);
-            _customerViewModel.CurrentCustomer = null;
+            if (customer == null)
+            {
+                _customerViewModel.Error = "Kan geen lege klant aanmaken";
+                return RedirectToAction("Customers");
+            }
+
+            if (customer.FirstName == null || customer.LastName == null
+                || customer.FirstName.Trim().Equals("<EMPTY>")
+                || customer.LastName.Trim().Equals("<EMPTY>")
+                || customer.FirstName.Trim().Length == 0
+                || customer.LastName.Trim().Length == 0)
+            {
+                _customerViewModel.Error = "Voornaam en/of achternaam mogen niet leeg zijn";
+
+            }
+            else
+            {
+                if (_customerService.Create(customer) == null)
+                {
+                    _customerViewModel.Error = "Aanmaken van nieuwe klant is mislukt";
+                }
+                else
+                {
+                    _customerViewModel.CurrentCustomer = null;
+                }
+            }
 
             return RedirectToAction("Customers");
         }
@@ -153,8 +218,15 @@ namespace VivesRental.WebApp.Controllers
         {
             if (customer.Id != Guid.Empty)
             {
-                _customerService.Edit(customer);
+                if (_customerService.Edit(customer) == null)
+                {
+                    _customerViewModel.Error = "Aanpassen van de klantgegevens is mislukt";
+                }
                 _customerViewModel.CurrentCustomer = null;
+            }
+            else
+            {
+                _customerViewModel.Error = "Aanpassen van de klantgegevens is mislukt omdat de id leeg was";
             }
             return RedirectToAction("Customers");
         }
@@ -165,6 +237,10 @@ namespace VivesRental.WebApp.Controllers
             if (_customerViewModel.CurrentCustomer != null)
             {
                 return View(_customerViewModel.CurrentCustomer);
+            }
+            else
+            {
+                _customerViewModel.Error = "Geen klant geselecteerd. Kan geen details tonen";
             }
             return RedirectToAction("Customers");
         }
@@ -195,10 +271,19 @@ namespace VivesRental.WebApp.Controllers
         {
             if (_productViewModel.CurrentProduct != null)
             {
-                _productService.Remove(_productViewModel.CurrentProduct.Id);
+                if (_productService.Remove(_productViewModel.CurrentProduct.Id) == false)
+                {
+                    _productViewModel.Error = "Het verwijderen van het product is mislukt";
+                }
+                else
+                {
+                    _productViewModel.CurrentProduct = null;
+                }
             }
-
-            _productViewModel.CurrentProduct = null;
+            else
+            {
+                _productViewModel.Error = "Geen product geselecteerd om te verwijderen";
+            }
             return RedirectToAction("Products");
 
         }
@@ -206,8 +291,28 @@ namespace VivesRental.WebApp.Controllers
         [HttpPost]
         public IActionResult CreateProduct(Product product)
         {
-            _productService.Create(product);
-            _productViewModel.CurrentProduct = null;
+            if (product == null)
+            {
+                _productViewModel.Error = "Kan geen leeg product aanmaken";
+                return RedirectToAction("Customers");
+            }
+            if (product.Name ==null 
+                || product.Name.Trim().Equals("<EMPTY>") 
+                || product.Name.Trim().Length == 0)
+            {
+                _productViewModel.Error = "Naam van het product mag niet leeg zijn";
+            }
+            else
+            {
+                if (_productService.Create(product) == null)
+                {
+                    _productViewModel.Error = "Aanmaken van nieuwe klant is mislukt";
+                }
+                else
+                {
+                    _productViewModel.CurrentProduct = null;
+                }
+            }
 
             return RedirectToAction("Products");
         }
@@ -217,8 +322,18 @@ namespace VivesRental.WebApp.Controllers
         {
             if (product.Id != Guid.Empty)
             {
-                _productService.Edit(product);
-                _productViewModel.CurrentProduct = null;
+                if (_productService.Edit(product) == null)
+                {
+                    _productViewModel.Error = "Aanpassen van de produktgegevens is mislukt";
+                }
+                else
+                {
+                    _productViewModel.CurrentProduct = null;
+                }
+            }
+            else
+            {
+                _customerViewModel.Error = "Aanpassen van de produktgegevens is mislukt omdat de id leeg was";
             }
             return RedirectToAction("Products");
         }
@@ -226,10 +341,18 @@ namespace VivesRental.WebApp.Controllers
         [HttpGet]
         public IActionResult ProductDetail(Guid id)
         {
+            if (id == Guid.Empty)
+            {
+                _productViewModel.Error = "Geen produkt geselecteerd. Kan geen details tonen";
+            }
             var product = _productService.Get(id,new ProductIncludes{Articles=true});
             if (product != null)
             {
                 return View(product);
+            }
+            else
+            {
+                _productViewModel.Error = String.Format("Produkt met id = {0} niet gevonden. Kan geen details tonen", id.ToString());
             }
             return RedirectToAction("Products");
         }
