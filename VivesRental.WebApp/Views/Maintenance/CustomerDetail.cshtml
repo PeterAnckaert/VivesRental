@@ -28,8 +28,31 @@
     <div>@Model.Orders.Count</div>
 </div>
 
+@if (Model.Orders.Count > 0)
+{
+<table>
+    <tr>
+        <th>ARTIKEL</th>
+        <th>ID</th>
+        <th>UITGELEEND OP</th>
+        <th>AANTAL UITLENINGEN</th>
+    </tr>
+        @{ int i = 0;
+        foreach (var order in Model.Orders)
+        {
+            var viewModel = new OrderPartialViewModel();
+            viewModel.Order = order;
+            viewModel.Counter = ++i;
+            <partial name="OrderPartial" model="viewModel" />
+        }
+
+    }
+</table>
+}
+
 @foreach (var order in Model.Orders)
 {
     <partial name="OrderPartial" model="order" />
 }
+
 

@@ -17,8 +17,8 @@ textarea {
 }
 
 .error-field {
-    background-color: crimson;
-    color: yellowgreen;
+    background-color: yellowgreen;
+    color: crimson;
     width:100%;
     padding: 1rem;
 }

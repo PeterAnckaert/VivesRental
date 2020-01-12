@@ -90,6 +90,12 @@ a {
     margin-bottom: 15px;
 }
 
+table, th, td {
+    border: 1px solid black;
+    padding: 0.5rem 0;
+    text-align: center;
+}
+
 .table {
     height: 20rem;
     overflow-y: scroll;

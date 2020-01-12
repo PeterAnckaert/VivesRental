@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using VivesRental.Services.Contracts;
@@ -28,6 +29,7 @@ namespace VivesRental.WebApp.Controllers
 
         public IActionResult Index()
         {
+
             _homeViewModel.NbrArticles = _articleService.All().Count;
             _homeViewModel.NbrCustomers = _customerService.All().Count;
             _homeViewModel.NbrOrders = _orderService.All().Count;

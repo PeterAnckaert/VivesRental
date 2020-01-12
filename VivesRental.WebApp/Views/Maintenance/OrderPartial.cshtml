@@ -1,14 +1,8 @@
-﻿@model VivesRental.Model.Order
+﻿@model OrderPartialViewModel
 
-@{
-    ViewData["Title"] = "Detail van bestelling";
-}
-
-<h1>OrderPartial</h1>
-
-<p>ID: @Model.Id</p>
-<p>FIRST NAME CUST: @Model.CustomerFirstName</p>
-<p>LAST NAME CUST:@Model.CustomerLastName</p>
-<p>CREATED: @Model.CreatedAt</p>
-<p>AANTAL: @Model.OrderLines.Count</p>
-
+    <tr>
+        <td>@Model.Counter</td>
+        <td>@Model.Order.Id</td>
+        <td>@Model.Order.CreatedAt</td>
+        <td>@Model.Order.OrderLines.Count</td>
+    </tr>
