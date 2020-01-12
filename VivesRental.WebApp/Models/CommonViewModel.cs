@@ -14,8 +14,9 @@ namespace VivesRental.WebApp.Models
 
     public enum SortKey
     {
-        ArticlesAsc,
-        ArticlesDesc,
+        Unsorted,
+        ArticleStatusAsc,
+        ArticleStatusDesc,
         DescriptionAsc,
         DescriptionDesc,
         EmailAsc,

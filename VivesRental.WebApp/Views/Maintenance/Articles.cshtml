@@ -1,13 +1,145 @@
-﻿@model MaintenanceViewModel
+﻿@using System.Collections
+@using VivesRental.Model
+@model ArticleViewModel
 @{
-    ViewData["Title"] = "Article";
+    ViewData["Title"] = "Artikelenbeheer";
 }
-
 <body class="color-article">
-    <h1>Article</h1>
+    <div class="container">
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1">Lijst van alle artikelen</div>
+        </div>
+        <div class="row">
+            <div class="table">
 
-    @foreach (var product in Model.Products)
-    {
-        <partial name="ProductPartial" model="product" />
-    }
+                <sort-bar>
+                    <div class="col-12">
+                        <div class="col-3">
+                            <a href="SortArticles?sortkey=@SortKey.NameAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortArticles?sortkey=@SortKey.NameDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Naam</div>
+                        </div>
+                        <div class="col-5">
+                            <a href="SortArticles?sortkey=@SortKey.DescriptionAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortArticles?sortkey=@SortKey.DescriptionDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Omschrijving</div>
+                        </div>
+                        <div class="col-2">
+                            <a href="SortArticles?sortkey=@SortKey.ArticleStatusAsc">
+                                <i class="fas fa-sort-alpha-down"></i>
+                            </a>
+                            <a href="SortArticles?sortkey=@SortKey.ArticleStatusDesc">
+                                <i class="fas fa-sort-alpha-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Status</div>
+                        </div>
+                        <div class="col-2" style="align-items: center">
+                            <a href="SortArticles?sortkey=@SortKey.ExpiresAtAsc">
+                                <i class="fas fa-sort-numeric-down"></i>
+                            </a>
+                            <a href="SortArticles?sortkey=@SortKey.ExpiresAtDesc">
+                                <i class="fas fa-sort-numeric-down-alt"></i>
+                            </a>
+                            <div>&nbsp;Aantal dagen</div>
+                        </div>
+                    </div>
+                </sort-bar>
+
+                @foreach (var article in Model.Articles)
+                {
+                    <form method="GET" class="col-12" asp-action="SetCurrentArticle">
+                        <partial name="ArticlePartial" model="article" />
+                    </form>
+                }
+            </div>
+        </div>
+        <form method="GET" class="col-12">
+            <div class="row" style="margin-bottom: 1rem;">
+                <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+                <div class="col-2">
+                    @if (Model.CurrentArticle != null)
+                    {
+                        <input type="submit" value="Details" asp-action="ArticleDetail" class="col-12 detail-btn" />
+                    }
+                </div>
+                <div class="col-2">
+                    <input type="submit" value="Wis" asp-action="ClearCurrentArticle" class="col-12 wis-btn" />
+                </div>
+            </div>
+        </form>
+        @if (Model.Error != String.Empty)
+        {
+            <div class="error-field">
+                <i class="fas fa-exclamation fa-2x"></i>
+                <label class="h4" style="padding: 0 1rem;">@Model.Error</label>
+                <i class="fas fa-exclamation fa-2x"></i>
+            </div>
+        }
+        <form method="POST" class="col-12">
+            <div class="row box-dotted form-group">
+
+                @{if (Model.CurrentArticle != null)
+                    {
+                        <label class="col-8 my-button table-row color-col-1">@($"{@Model.CurrentArticle.Product.Name} - [{@Model.CurrentArticle.Id.ToString()}]")</label>
+                        <input type="hidden" name="Id" value="@Model.CurrentArticle.Id"/>
+                    }
+
+                    else
+                    {
+                        <select name="ProductId" class="col-8 my-button table-row color-col-1">
+                            @foreach (var product in Model.Products)
+                            {
+                                @if (Model.CurrentArticle != null && product.Id == Model.CurrentArticle.ProductId)
+                                {
+                                    <option selected value="@product.Id">@product.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@product.Id">@product.Name</option>
+                                }
+                            }
+                        </select>
+                    }
+                }
+                <select name="Status" class="col-2 my-button table-row color-col-3">
+                    @{
+                        var values = Enum.GetNames(typeof(ArticleStatus));
+                        foreach (var status in values)
+                        {
+                            @if (Model.CurrentArticle != null && status == Model.CurrentArticle.Status.ToString())
+                            {
+                                <option selected value="@status">@status</option>
+                            }
+                            else
+                            {
+                                <option value="@status">@status</option>
+                            }
+                        }
+
+                    }
+                </select>
+                <input type="text" name="Product.RentalExpiresAfterDays" placeholder="Aantal artikelen" value="@(Model.CurrentArticle == null ? "" : Model.CurrentArticle.Product.RentalExpiresAfterDays.ToString())" class="col-2 my-button table-row color-col-5" />
+            </div>
+            <div class="row">
+                @if (Model.CurrentArticle == null)
+                {
+                    <input type="submit" value="Maak nieuwe artikel aan" asp-action="CreateArticle" class="col-3 create-btn" />
+                }
+                else
+                {
+                    <div class="col-3"></div>
+                    <input type="submit" value="Pas status aan" asp-action="UpdateArticle" class="col-3 update-btn" />
+                    <input type="submit" value="Verwijder artikel" asp-action="DeleteArticle" class="col-3 delete-btn" />
+                }
+            </div>
+        </form>
+    </div>
 </body>

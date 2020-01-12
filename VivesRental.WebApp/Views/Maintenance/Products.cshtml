@@ -92,15 +92,15 @@
             <div class="box-dotted form-group">
                 <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
                 <label class="col-2">Naam:</label>
-                <input type="text" name="Name" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Name)" class="col-9 product-name" />
+                <input type="text" name="Name" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Name)" class="col-9 color-col-1" />
                 <label class="col-2" style="vertical-align: top;">Omschrijving:</label>
-                <textarea name="Description" rows="5" class="col-9 product-description">@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Description)</textarea>
+                <textarea name="Description" rows="5" class="col-9 color-col-2">@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Description)</textarea>
                 <label class="col-2">Fabrikant:</label>
-                <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 product-manufacturer" />
+                <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 color-col-3" />
                 <label class="col-2">Uitgever:</label>
-                <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 product-publisher" />
+                <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 color-col-4" />
                 <label class="col-2">Aantal dagen:</label>
-                <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 product-expires" />
+                <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 color-col-5" />
             </div>
             <div class="row">
                 <input type="submit" value="Maak nieuwe product aan" asp-action="CreateProduct" class="col-3 create-btn" />

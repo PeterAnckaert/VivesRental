@@ -1,8 +1,12 @@
-﻿@model ArticlePartialViewModel
-
-<tr>
-    <td>@Model.Counter</td>
-    <td>@Model.Article.Id</td>
-    <td>@Model.Article.Status</td>
-    <td>@Model.Article.OrderLines.Count</td>
-</tr>
+﻿@model VivesRental.Model.Article
+    <div class="form-group">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="Product.Name" />
+        <input type="hidden" asp-for="Status" />
+        <input type="hidden" asp-for="Product.RentalExpiresAfterDays" />
+        <input type="submit" asp-for="Product.Name" class="col-3 my-button table-row color-col-1" />
+        <input type="submit" asp-for="Product.Description" class="col-5 my-button table-row color-col-2" />
+        <input type="submit" asp-for="Status" class="col-2 my-button table-row color-col-3" />
+        <input type="submit" asp-for="Product.RentalExpiresAfterDays" class="col-2 my-button table-row color-col-4" />
+    </div>

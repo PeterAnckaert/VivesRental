@@ -4,7 +4,7 @@
     ViewData["Title"] = "Productdetail";
 }
 
-<div class="row">
+<div class="row" style ="align-items: baseline">
     <div class="col-3 h1">Detail van</div>
     <div class="col-9 h3">@Model.Id</div>
 </div>
@@ -47,7 +47,7 @@
                 var viewModel = new ArticlePartialViewModel();
                 viewModel.Article = article;
                 viewModel.Counter = ++i;
-                <partial name="ArticlePartial" model="viewModel" />
+                <partial name="ProductArticlePartial" model="viewModel" />
             }
 
         }

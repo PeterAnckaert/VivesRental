@@ -20,6 +20,7 @@ namespace VivesRental.WebApp.Controllers
         private readonly MaintenanceViewModel _maintenanceViewModel = new MaintenanceViewModel();
         private static CustomerViewModel _customerViewModel = new CustomerViewModel();
         private static ProductViewModel _productViewModel = new ProductViewModel();
+        private static ArticleViewModel _articleViewModel = new ArticleViewModel();
 
         public MaintenanceController(ILogger<MaintenanceController> logger, IArticleService articleService, ICustomerService customerService, IOrderLineService orderLineService, IOrderService orderService, IProductService productService)
         {
@@ -65,8 +66,43 @@ namespace VivesRental.WebApp.Controllers
         [HttpGet]
         public IActionResult Articles()
         {
-            ProcessError(null);
-            return View();
+            var articles = _articleService.All(new ArticleIncludes { Product = true });
+            _articleViewModel.Products = _productService.All().OrderBy(ok => ok.Name);
+
+            switch (_articleViewModel.SortKey)
+            {
+                case SortKey.NameAsc:
+                    _articleViewModel.Articles = articles.OrderBy(ok => ok.Product.Name);
+                    break;
+                case SortKey.NameDesc:
+                    _articleViewModel.Articles = articles.OrderByDescending(ok => ok.Product.Name);
+                    break;
+                case SortKey.DescriptionAsc:
+                    _articleViewModel.Articles = articles.OrderBy(ok => ok.Product.Description);
+                    break;
+                case SortKey.DescriptionDesc:
+                    _articleViewModel.Articles = articles.OrderByDescending(ok => ok.Product.Description);
+                    break;
+                case SortKey.ArticleStatusAsc:
+                    _articleViewModel.Articles = articles.OrderBy(ok => ok.Status.ToString());
+                    break;
+                case SortKey.ArticleStatusDesc:
+                    _articleViewModel.Articles = articles.OrderByDescending(ok => ok.Status.ToString());
+                    break;
+                case SortKey.ExpiresAtAsc:
+                    _articleViewModel.Articles = articles.OrderBy(ok => ok.Product.RentalExpiresAfterDays);
+                    break;
+                case SortKey.ExpiresAtDesc:
+                    _articleViewModel.Articles = articles.OrderByDescending(ok => ok.Product.RentalExpiresAfterDays);
+                    break;
+                default:
+                    _articleViewModel.Articles = articles.OrderBy(ok => ok.Product.Name);
+                    break;
+            }
+
+            ProcessError(_articleViewModel);
+
+            return View(_articleViewModel);
         }
 
         [HttpGet]
@@ -370,6 +406,109 @@ namespace VivesRental.WebApp.Controllers
             _productViewModel.SortKey = sortKey;
             return RedirectToAction("Products");
         }
-    }
 
+        [HttpGet]
+        public IActionResult SetCurrentArticle(Article currentArticle)
+        {
+            _articleViewModel.CurrentArticle = currentArticle;
+            return RedirectToAction("Articles");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteArticle()
+        {
+            if (_articleViewModel.CurrentArticle != null)
+            {
+                if (_articleService.Remove(_articleViewModel.CurrentArticle.Id) == false)
+                {
+                    _articleViewModel.Error = "Het verwijderen van het artikel is mislukt";
+                }
+                else
+                {
+                    _articleViewModel.CurrentArticle = null;
+                }
+            }
+            else
+            {
+                _articleViewModel.Error = "Geen artikel geselecteerd om te verwijderen";
+            }
+            return RedirectToAction("Articles");
+
+        }
+
+        [HttpPost]
+        public IActionResult CreateArticle(Article article)
+        {
+            if (article == null)
+            {
+                _articleViewModel.Error = "Kan geen leeg artikel aanmaken";
+                return RedirectToAction("Articles");
+            }
+
+            if (article.ProductId == Guid.Empty)
+            {
+                _articleViewModel.Error = "Er moet een product gekozen worden";
+
+            }
+            else
+            {
+                if (_articleService.Create(article) == null)
+                {
+                    _articleViewModel.Error = "Aanmaken van nieuw artikel is mislukt";
+                }
+                else
+                {
+                    _articleViewModel.CurrentArticle = null;
+                }
+            }
+
+            return RedirectToAction("Articles");
+        }
+
+        [HttpPost]
+        public IActionResult UpdateArticle(Article article)
+        {
+            if (article.Id != Guid.Empty)
+            {
+                if (_articleService.UpdateStatus(article.Id,article.Status) == null)
+                {
+                    _articleViewModel.Error = "Aanpassen van de artikelgegevens is mislukt";
+                }
+                _articleViewModel.CurrentArticle = null;
+            }
+            else
+            {
+                _articleViewModel.Error = "Aanpassen van de artikelgegevens is mislukt omdat de id leeg was";
+            }
+            return RedirectToAction("Articles");
+        }
+
+        [HttpGet]
+        public IActionResult ArticleDetail()
+        {
+            if (_articleViewModel.CurrentArticle != null)
+            {
+                return View(_articleViewModel.CurrentArticle);
+            }
+            else
+            {
+                _articleViewModel.Error = "Geen artikel geselecteerd. Kan geen details tonen";
+            }
+            return RedirectToAction("Articles");
+        }
+
+        [HttpGet]
+        public IActionResult ClearCurrentArticle()
+        {
+            _articleViewModel.CurrentArticle = null;
+            return RedirectToAction("Articles");
+        }
+
+        [HttpGet]
+        public IActionResult SortArticles(SortKey sortKey)
+        {
+            _articleViewModel.SortKey = sortKey;
+            return RedirectToAction("Articles");
+        }
+    }
 }

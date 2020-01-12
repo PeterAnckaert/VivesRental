@@ -84,10 +84,10 @@
         <form method="POST" class="col-12">
             <div class="row box-dotted form-group">
                 <input type="hidden" name="Id" value="@(Model.CurrentCustomer == null ? "" : Model.CurrentCustomer.Id.ToString())" />
-                <input type="text" name="FirstName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.FirstName)" class="col-2 my-button table-row customer-first-name" />
-                <input type="text" name="LastName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.LastName)" class="col-3 my-button table-row customer-last-name" />
-                <input type="email" name="Email" value="@(Model.CurrentCustomer == null ? "no_email@vives.rental" : Model.CurrentCustomer.Email)" class="col-4 my-button table-row customer-last-email" />
-                <input type="tel" name="PhoneNumber" value="@(Model.CurrentCustomer == null ? "000/000000" : Model.CurrentCustomer.PhoneNumber)" class="col-3 my-button table-row customer-last-phone-number" />
+                <input type="text" name="FirstName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.FirstName)" class="col-2 my-button table-row color-col-1" />
+                <input type="text" name="LastName" value="@(Model.CurrentCustomer == null ? "<EMPTY>" : Model.CurrentCustomer.LastName)" class="col-3 my-button table-row color-col-2" />
+                <input type="email" name="Email" value="@(Model.CurrentCustomer == null ? "no_email@vives.rental" : Model.CurrentCustomer.Email)" class="col-4 my-button table-row color-col-3" />
+                <input type="tel" name="PhoneNumber" value="@(Model.CurrentCustomer == null ? "000/000000" : Model.CurrentCustomer.PhoneNumber)" class="col-3 my-button table-row color-col-4" />
             </div>
             <div class="row">
                 <input type="submit" value="Maak nieuwe klant aan" asp-action="CreateCustomer" class="col-3 create-btn" />
