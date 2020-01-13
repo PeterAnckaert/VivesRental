@@ -1,7 +1,82 @@
-﻿
+﻿@using VivesRental.Model
+@model Article
 @{
-    ViewData["Title"] = "ArticleDetail";
+    ViewData["Title"] = "Artikeldetail";
 }
 
-<h1>ArticleDetail</h1>
+<div class="row" style="align-items: baseline">
+    <div class="col-3 h1">Detail van</div>
+    <div class="col-9 h3">@Model.Id</div>
+</div>
+<div class="row h2" style="align-items: center">
+    <div class="col-4">Status:</div>
+    @{
+        var statusColor = Model.Status switch
+        {
+            ArticleStatus.Normal => StatusColor.Normal,
+            ArticleStatus.Broken => StatusColor.Broken,
+            ArticleStatus.Destroyed => StatusColor.Destroyed,
+            ArticleStatus.InRepair => StatusColor.InRepair,
+            ArticleStatus.Lost => StatusColor.Lost,
+            };
+        var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
+    }
+    <div class="rounded-pill border border-dark" style="background-color: @stringColor; padding: 1rem;">@Model.Status</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Product id:</div>
+    <div>@Model.ProductId</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Produktnaam:</div>
+    <div>@Model.Product.Name</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Omschrijving:</div>
+    <div>@Model.Product.Description</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Termijn:</div>
+    <div>@Model.Product.RentalExpiresAfterDays dagen</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Produktfabrikant:</div>
+    <div>@Model.Product.Manufacturer</div>
+</div>
+<div class="row h2">
+    <div class="col-4">Produktuitgever:</div>
+    <div>@Model.Product.Publisher</div>
+</div>
+<div class="row h2">
+    <div class="col-4">??Gelijkwaardig:??</div>
+    <div>@Model.Product.Articles.Count</div>
+</div>
+<div class="row h2">
+    <div class="col-4">??Orderlines??:</div>
+    <div>@Model.OrderLines.Count</div>
+</div>
 
+@if (Model.OrderLines.Count > 0)
+{
+    <table>
+        <tr>
+            <th>??</th>
+            <th>??</th>
+            <th>??</th>
+            <th>??</th>
+            @{
+                /*
+                    </tr>
+                    @{ int i = 0;
+                        foreach (var order in Model.OrderLines)
+                        {
+                            var viewModel = new OrderLinesPartialViewModel();
+                            viewModel.OrderLines = order;
+                            viewModel.Counter = ++i;
+                            <partial name="OrderLinesPartial" model="viewModel" />
+                        }
+
+                    }*/
+            }
+    </table>
+}

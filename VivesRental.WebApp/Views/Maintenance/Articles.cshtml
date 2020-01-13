@@ -48,7 +48,7 @@
                             <a href="SortArticles?sortkey=@SortKey.ExpiresAtDesc">
                                 <i class="fas fa-sort-numeric-down-alt"></i>
                             </a>
-                            <div>&nbsp;Aantal dagen</div>
+                            <div>&nbsp;Termijn</div>
                         </div>
                     </div>
                 </sort-bar>
@@ -89,7 +89,7 @@
                 @{if (Model.CurrentArticle != null)
                     {
                         <label class="col-8 my-button table-row color-col-1">@($"{@Model.CurrentArticle.Product.Name} - [{@Model.CurrentArticle.Id.ToString()}]")</label>
-                        <input type="hidden" name="Id" value="@Model.CurrentArticle.Id"/>
+                        <input type="hidden" name="Id" value="@Model.CurrentArticle.Id" />
                     }
 
                     else
@@ -109,24 +109,45 @@
                         </select>
                     }
                 }
-                <select name="Status" class="col-2 my-button table-row color-col-3">
-                    @{
-                        var values = Enum.GetNames(typeof(ArticleStatus));
-                        foreach (var status in values)
+            <select name="Status" class="col-2 my-button table-row color-col-3">
+                @{
+                    var values = Enum.GetNames(typeof(ArticleStatus));
+                    foreach (var status in values)
+                    {
+                        var statusColor = status switch
                         {
-                            @if (Model.CurrentArticle != null && status == Model.CurrentArticle.Status.ToString())
-                            {
-                                <option selected value="@status">@status</option>
-                            }
-                            else
-                            {
-                                <option value="@status">@status</option>
-                            }
-                        }
+/*
+                            ArticleStatus.Normal.ToString("F") => "green",
+                            Enum.GetName(typeof(ArticleStatus), ArticleStatus.Normal) => "green",
+*/
+                            "Normal" => StatusColor.Normal,
+                            "Broken" => StatusColor.Broken,
+                            "Destroyed" => StatusColor.Destroyed,
+                            "InRepair" => StatusColor.InRepair,
+                            "Lost" => StatusColor.Lost,
+                        };
+                        var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
 
+                        if (Model.CurrentArticle != null && status == Model.CurrentArticle.Status.ToString())
+                        {
+                            <option selected value="@status" style="background-color: @stringColor;">@status</option>
+                        }
+                        else
+                        {
+                            <option value="@status" style="background-color: @stringColor;">@status</option>
+                        }
                     }
-                </select>
-                <input type="text" name="Product.RentalExpiresAfterDays" placeholder="Aantal artikelen" value="@(Model.CurrentArticle == null ? "" : Model.CurrentArticle.Product.RentalExpiresAfterDays.ToString())" class="col-2 my-button table-row color-col-5" />
+
+                }
+            </select>
+                @if (Model.CurrentArticle == null)
+                {
+                    <input type="number" min="1" step="1" name="Aantal" placeholder="Aantal artikelen" value="" class="col-2 my-button table-row color-col-5" />
+                }
+                else
+                {
+                    <input type="text" name="Product.RentalExpiresAfterDays" value="@Model.CurrentArticle.Product.RentalExpiresAfterDays.ToString()" class="col-2 my-button table-row color-col-4" />
+                }
             </div>
             <div class="row">
                 @if (Model.CurrentArticle == null)

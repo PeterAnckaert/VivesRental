@@ -1,6 +1,6 @@
 ﻿@model VivesRental.Model.Customer
 @{
-    ViewData["Title"] = "Klantendetail";
+    ViewData["Title"] = "Klantdetail";
 }
 
 <div class="row" style ="align-items: baseline">
@@ -49,10 +49,3 @@
     }
 </table>
 }
-
-@foreach (var order in Model.Orders)
-{
-    <partial name="OrderPartial" model="order" />
-}
-
-

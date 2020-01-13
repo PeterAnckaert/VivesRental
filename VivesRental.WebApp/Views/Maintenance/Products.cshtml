@@ -49,7 +49,7 @@
                             <div>&nbsp;Uitgever</div>
                         </div>
                         <div class="col-1">
-                            <div>&nbsp;Aantal dagen</div>
+                            <div>&nbsp;Termijn</div>
                         </div>
                         <div class="col-1">
                             <div>&nbsp;Aantal artikelen</div>
@@ -99,7 +99,7 @@
                 <input type="text" name="Manufacturer" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Manufacturer)" class="col-9 color-col-3" />
                 <label class="col-2">Uitgever:</label>
                 <input type="text" name="Publisher" value="@(Model.CurrentProduct == null ? "<EMPTY>" : Model.CurrentProduct.Publisher)" class="col-9 color-col-4" />
-                <label class="col-2">Aantal dagen:</label>
+                <label class="col-2">Termijn:</label>
                 <input type="number" name="RentalExpiresAfterDays" min="1" step="1" value="@(Model.CurrentProduct == null ? "1" : Model.CurrentProduct.RentalExpiresAfterDays.ToString())" class="col-2 color-col-5" />
             </div>
             <div class="row">

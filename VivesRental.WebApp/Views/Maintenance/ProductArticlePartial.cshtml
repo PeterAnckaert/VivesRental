@@ -1,8 +1,19 @@
-﻿@model ArticlePartialViewModel
+﻿@using VivesRental.Model
+@model ArticlePartialViewModel
+
+@{ var statusColor = Model.Article.Status switch
+   {
+       ArticleStatus.Normal => StatusColor.Normal,
+       ArticleStatus.Broken => StatusColor.Broken,
+       ArticleStatus.Destroyed => StatusColor.Destroyed,
+       ArticleStatus.InRepair => StatusColor.InRepair,
+       ArticleStatus.Lost => StatusColor.Lost,
+       };
+    var stringColor = "#" + statusColor.ToString("X").Substring(2, 6);
+}
 
 <tr>
     <td>@Model.Counter</td>
     <td>@Model.Article.Id</td>
-    <td>@Model.Article.Status</td>
-    <td>@Model.Article.OrderLines.Count</td>
+    <td style="background-color: @stringColor;">@Model.Article.Status</td>
 </tr>
