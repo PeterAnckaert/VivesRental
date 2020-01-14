@@ -19,6 +19,7 @@
             ArticleStatus.InRepair => StatusColor.InRepair,
             ArticleStatus.Lost => StatusColor.Lost,
             ArticleStatus.Pending => StatusColor.Pending,
+            _ => StatusColor.Pending
             };
         var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
     }

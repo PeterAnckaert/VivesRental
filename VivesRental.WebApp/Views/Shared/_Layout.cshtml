@@ -9,31 +9,32 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/home.css" />
     <link rel="stylesheet" href="~/css/maintenance.css" />
+    <link rel="stylesheet" href="~/css/shop.css" />
 </head>
 <body>
     <div class="wrapper">
         <top-menu>
             <ul>
                 <li>
-                    <a class="btn" asp-controller="Home" asp-action="Index">
+                    <a class="my-btn" asp-controller="Home" asp-action="Index">
                         <i class="fas fa-home fa-5x"></i>
                         <text class="h4">VivesRental</text>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-check-in" asp-controller="Shop" asp-action="CheckIn">
+                    <a class="my-btn btn-check-in" asp-controller="Shop" asp-action="CheckIn">
                         <i class="fas fa-download fa-2x"></i>
                         <p>Inchecken</p>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-check-out" asp-controller="Shop" asp-action="CheckOut">
+                    <a class="my-btn btn-check-out" asp-controller="Shop" asp-action="CheckOut">
                         <i class="fas fa-upload fa-2x"></i>
                         <p>Uitchecken</p>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
+                    <a class="my-btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
                         <i class="fas fa-cogs fa-2x"></i>
                         <p>Beheer</p>
                     </a>
@@ -44,37 +45,37 @@
             <p class="title-side"> Springplank</p>
             <ul>
                 <li>
-                    <a class="btn btn-check-in" asp-controller="Home" asp-action="Privacy">
+                    <a class="my-btn btn-check-in" asp-controller="Shop" asp-action="CheckIn">
                         <i class="fas fa-download"></i>
                         <text>Inchecken</text>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-check-out" asp-controller="Home" asp-action="error">
+                    <a class="my-btn btn-check-out" asp-controller="Shop" asp-action="CheckOut">
                         <i class="fas fa-upload"></i>
                         <text>Uitchecken</text>
                     </a>
                 </li>
                 <li>
-                    <a class="btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
+                    <a class="my-btn btn-maintenance" asp-controller="Maintenance" asp-action="Index">
                         <i class="fas fa-cogs"></i>
                         <text>Beheer</text>
                     </a>
                     <ul>
                         <li style="margin-top: 1rem;">
-                            <a class="btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
+                            <a class="my-btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
                                 <i class="fas fa-user"></i>
                                 <text>Klantenbeheer</text>
                             </a>
                         </li>
                         <li>
-                            <a class="btn btn-product" asp-controller="Maintenance" asp-action="Products">
+                            <a class="my-btn btn-product" asp-controller="Maintenance" asp-action="Products">
                                 <i class="fas fa-box-open"></i>
                                 <text>Productbeheer</text>
                             </a>
                         </li>
                         <li>
-                            <a class="btn btn-article" asp-controller="Maintenance" asp-action="Articles">
+                            <a class="my-btn btn-article" asp-controller="Maintenance" asp-action="Articles">
                                 <i class="fas fa-gift"></i>
                                 <text>Artikelbeheer</text>
                             </a>

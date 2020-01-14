@@ -1,18 +1,20 @@
 ﻿@{
     ViewData["Title"] = "Beheer";
 }
-<maintenance class="color-maintenance">
-    <h1>Beheerpagina</h1>
-    <a class="btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
-        <i class="fas fa-user fa-5x"></i>
-        <text>Klantenbeheer</text>
-    </a>
-    <a class="btn btn-product" asp-controller="Maintenance" asp-action="Products">
-        <i class="fas fa-box-open fa-5x"></i>
-        <text>Productbeheer</text>
-    </a>
-    <a class="btn btn-article" asp-controller="Maintenance" asp-action="Articles">
-        <i class="fas fa-gift fa-5x"></i>
-        <text>Artikelbeheer</text>
-    </a>
-</maintenance>
+<body class="color-maintenance">
+    <maintenance>
+        <h1>Beheerpagina</h1>
+        <a class="my-btn btn-customer" asp-controller="Maintenance" asp-action="Customers">
+            <i class="fas fa-user fa-5x"></i>
+            <text>Klantenbeheer</text>
+        </a>
+        <a class="my-btn btn-product" asp-controller="Maintenance" asp-action="Products">
+            <i class="fas fa-box-open fa-5x"></i>
+            <text>Productbeheer</text>
+        </a>
+        <a class="my-btn btn-article" asp-controller="Maintenance" asp-action="Articles">
+            <i class="fas fa-gift fa-5x"></i>
+            <text>Artikelbeheer</text>
+        </a>
+    </maintenance>
+</body>

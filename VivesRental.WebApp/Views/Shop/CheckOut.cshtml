@@ -1,7 +1,50 @@
-﻿
+﻿@model CheckOutViewModel
+
 @{
     ViewData["Title"] = "CheckOut";
 }
 
-<h1>CheckOut</h1>
+<body class="color-check-out">
+    <div class="container">
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1">Artikelen lenen uit VivesRental</div>
+        </div>
+        <div class="row dropdown h3 col-12">
+            <button class="my-btn color-customer dropdown-toggle col-12" type="button" id="dropdownCustomer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @(Model.SelectedCustomer == null ? "Kies een klant" : $"{Model.SelectedCustomer.FirstName} {Model.SelectedCustomer.LastName}")
+            </button>
+            <div class="dropdown-menu col-12" aria-labelledby="dropdownCustomer">
+                @foreach (var customer in @Model.Customers)
+                {
+                        <form method="GET" class="col-12" asp-action="SelectCustomer">
+                            <input type="hidden" name="Id" value="@customer.Id" />
+                            <button class="my-btn dropdown-item" type="submit">
+                                @{ string name = $"{@customer.FirstName} {@customer.LastName}"; }
+                                <div class="float-left">@name</div>
+                                <div class="float-right">@customer.Id</div>
+                            </button>
+                        </form>
+                }
 
+            </div>
+        </div>
+        <div class="row dropdown h3 col-12">
+            <button class="my-btn color-article dropdown-toggle col-12" type="button" id="dropdownArticle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Kies een artikel
+            </button>
+            <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
+                @foreach (var article in @Model.Articles)
+                {
+                    <form method="GET" class="col-12" asp-action="SelectArticle">
+                        <input type="hidden" name="Id" value="@article.Id" />
+                        <button class="my-btn dropdown-item" type="submit">
+                            <div class="float-left">@article.Product.Name</div>
+                            <div class="float-right">@article.ProductId</div>
+                        </button>
+                    </form>
+                }
+            </div>
+        </div>
+        <div>Aantal: @Model.SelectedArticles.Count</div>
+    </div>
+</body>

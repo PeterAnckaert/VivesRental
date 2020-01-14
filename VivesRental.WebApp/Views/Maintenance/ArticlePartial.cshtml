@@ -9,6 +9,7 @@
                ArticleStatus.InRepair => StatusColor.InRepair,
                ArticleStatus.Lost => StatusColor.Lost,
                ArticleStatus.Pending => StatusColor.Pending,
+               _ => StatusColor.Pending
                };
             var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
         }
@@ -23,8 +24,8 @@
         <input type="hidden" asp-for="Product.Publisher" />
         <input type="hidden" asp-for="Product.Articles" />
         <input type="hidden" asp-for="OrderLines" />
-        <input type="submit" asp-for="Product.Name" class="col-3 my-button table-row color-col-1" />
-        <input type="submit" asp-for="Product.Description" class="col-5 my-button table-row color-col-2" />
-        <input type="submit" asp-for="Status" class="col-2 my-button table-row color-col-3 rounded-pill border border-dark" style="background-color: @stringColor;" />
-        <input type="submit" asp-for="Product.RentalExpiresAfterDays" class="col-2 my-button table-row color-col-4" />
+        <input type="submit" asp-for="Product.Name" class="col-3 my-table-button table-row color-col-1" />
+        <input type="submit" asp-for="Product.Description" class="col-5 my-table-button table-row color-col-2" />
+        <input type="submit" asp-for="Status" class="col-2 my-table-button table-row color-col-3 rounded-pill border border-dark" style="background-color: @stringColor;" />
+        <input type="submit" asp-for="Product.RentalExpiresAfterDays" class="col-2 my-table-button table-row color-col-4" />
     </div>

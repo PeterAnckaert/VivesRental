@@ -88,13 +88,13 @@
 
                 @{if (Model.CurrentArticle != null)
                     {
-                        <label class="col-8 my-button table-row color-col-1">@($"{@Model.CurrentArticle.Product.Name} - [{@Model.CurrentArticle.Id.ToString()}]")</label>
+                        <label class="col-8 my-table-button table-row color-col-1">@($"{@Model.CurrentArticle.Product.Name} - [{@Model.CurrentArticle.Id.ToString()}]")</label>
                         <input type="hidden" name="Id" value="@Model.CurrentArticle.Id" />
                     }
 
                     else
                     {
-                        <select name="ProductId" class="col-8 my-button table-row color-col-1">
+                        <select name="ProductId" class="col-8 my-table-button table-row color-col-1">
                             @foreach (var product in Model.Products)
                             {
                                 @if (Model.CurrentArticle != null && product.Id == Model.CurrentArticle.ProductId)
@@ -109,7 +109,7 @@
                         </select>
                     }
                 }
-            <select name="Status" class="col-2 my-button table-row color-col-3">
+            <select name="Status" class="col-2 my-table-button table-row color-col-3">
                 @{
                     var values = Enum.GetNames(typeof(ArticleStatus));
                     foreach (var status in values)
@@ -126,6 +126,7 @@
                             "InRepair" => StatusColor.InRepair,
                             "Lost" => StatusColor.Lost,
                             "Pending" => StatusColor.Pending,
+                            _ => StatusColor.Pending
                         };
                         var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
 
@@ -143,11 +144,11 @@
             </select>
                 @if (Model.CurrentArticle == null)
                 {
-                    <input type="number" min="1" step="1" name="Aantal" placeholder="Aantal artikelen" value="" class="col-2 my-button table-row color-col-5" />
+                    <input type="number" min="1" step="1" name="Aantal" placeholder="Aantal artikelen" value="" class="col-2 my-table-button table-row color-col-5" />
                 }
                 else
                 {
-                    <input type="text" name="Product.RentalExpiresAfterDays" value="@Model.CurrentArticle.Product.RentalExpiresAfterDays.ToString()" class="col-2 my-button table-row color-col-4" />
+                    <input type="text" name="Product.RentalExpiresAfterDays" value="@Model.CurrentArticle.Product.RentalExpiresAfterDays.ToString()" class="col-2 my-table-button table-row color-col-4" />
                 }
             </div>
             <div class="row">
