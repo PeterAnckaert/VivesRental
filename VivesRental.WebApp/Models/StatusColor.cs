@@ -12,5 +12,6 @@ namespace VivesRental.WebApp.Models
     Destroyed = 0XFF4500,
     InRepair = 0XF0E68C,
     Lost = 0XEE82EE,
+    Pending = 0XFFFFFF,
     }
 }
