@@ -1,6 +1,6 @@
 ﻿.dropdown-item {
-    color: darkslategray;
-    background-color: lightskyblue;
+    color: inherit;
+    background-color: inherit;
     border-radius: 0;
     padding: 0.6rem;
     margin: 0;
@@ -18,3 +18,26 @@
 }
 
     */
+
+.checkered {
+    color: darkslategray;
+    background-color: lightskyblue;
+}
+
+.checkered:nth-child(odd) {
+    color: lightskyblue;
+    background-color: darkslategray;
+}
+
+.checkered-rev {
+    color: lightskyblue;
+    background-color: darkslategray;
+}
+
+    .checkered-rev:nth-child(odd) {
+        color: darkslategray;
+        background-color: lightskyblue;
+}
+
+
+

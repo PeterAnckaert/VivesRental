@@ -16,6 +16,7 @@
             <div class="dropdown-menu col-12" aria-labelledby="dropdownCustomer">
                 @foreach (var customer in @Model.Customers)
                 {
+                    <div class="checkered">
                         <form method="GET" class="col-12" asp-action="SelectCustomer">
                             <input type="hidden" name="Id" value="@customer.Id" />
                             <button class="my-btn dropdown-item" type="submit">
@@ -24,6 +25,7 @@
                                 <div class="float-right">@customer.Id</div>
                             </button>
                         </form>
+                    </div>
                 }
 
             </div>
@@ -35,16 +37,34 @@
             <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
                 @foreach (var article in @Model.Articles)
                 {
-                    <form method="GET" class="col-12" asp-action="SelectArticle">
-                        <input type="hidden" name="Id" value="@article.Id" />
-                        <button class="my-btn dropdown-item" type="submit">
-                            <div class="float-left">@article.Product.Name</div>
-                            <div class="float-right">@article.ProductId</div>
-                        </button>
-                    </form>
+                    <div class="checkered">
+                        <form method="GET" class="col-12" asp-action="SelectArticle">
+                            <input type="hidden" name="Id" value="@article.Id" />
+                            <button class="my-btn dropdown-item" type="submit">
+                                <div class="float-left">@article.Product.Name</div>
+                                <div class="float-right">@article.ProductId</div>
+                            </button>
+                        </form>
+                    </div>
                 }
             </div>
         </div>
+        @if (Model.SelectedArticles.Count > 0)
+        {
+            <table class="col-12">
+                <tr>
+                    <th class="checkered-rev">ID</th>
+                    <th class="checkered-rev">NAAM</th>
+                    <th class="checkered-rev">OMSCHRIJVING</th>
+                    <th class="checkered-rev">TERMIJN</th>
+                </tr>
+                @{foreach (var article in Model.SelectedArticles)
+                    {
+                        <partial name="OrderArticlePartial" model="article" />
+                    }
+                }
+            </table>
+        }
         <div>Aantal: @Model.SelectedArticles.Count</div>
     </div>
 </body>
