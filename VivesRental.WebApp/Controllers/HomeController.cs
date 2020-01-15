@@ -32,7 +32,11 @@ namespace VivesRental.WebApp.Controllers
 
             _homeViewModel.NbrArticles = _articleService.All().Count;
             _homeViewModel.NbrCustomers = _customerService.All().Count;
-            _homeViewModel.NbrOrders = _orderService.All().Count;
+            _homeViewModel.NbrOrders = 0;
+            foreach (var order in _orderService.All())
+            {
+                _homeViewModel.NbrOrders += _orderLineService.FindByOrderId(order.Id).Count;
+            }
             _homeViewModel.NbrProducts = _productService.All().Count;
             return View(_homeViewModel);
         }

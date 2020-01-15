@@ -23,6 +23,12 @@ body {
     line-height: 1.4;
 }
 
+input {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 a {
     color: var(--light);
     text-decoration: none;
@@ -93,10 +99,19 @@ a {
     margin-bottom: 15px;
 }
 
+.no-border {
+    border: 0px;
+}
+
 table, th, td {
     border: 1px solid black;
     padding: 0.5rem 0;
     text-align: center;
+}
+
+td a {
+    box-shadow: none;
+    color: var(--dark);
 }
 
 .table {

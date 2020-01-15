@@ -28,7 +28,6 @@ namespace VivesRental.Model
         InRepair = 2,
         Lost = 3,
         Destroyed = 4,
-        Reservation = 98,
         Pending = 99
     }
 }

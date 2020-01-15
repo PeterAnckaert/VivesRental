@@ -1,47 +1,49 @@
-﻿@model VivesRental.Model.Customer
+﻿@model CustomerViewModel
 @{
     ViewData["Title"] = "Klantdetail";
 }
 
 <div class="row" style ="align-items: baseline">
     <div class="col-3 h1">Detail van</div>
-    <div class="col-9 h3">@Model.Id</div>
+    <div class="col-9 h3">@Model.CurrentCustomer.Id</div>
 </div>
 <div class="row h2">
     <div class="col-4">Voornaam:</div>
-    <div>@Model.FirstName</div>
+    <div>@Model.CurrentCustomer.FirstName</div>
 </div>
 <div class="row h2">
     <div class="col-4">Achternaam:</div>
-    <div>@Model.LastName</div>
+    <div>@Model.CurrentCustomer.LastName</div>
 </div>
 <div class="row h2">
     <div class="col-4">Emailadres:</div>
-    <div>@Model.Email</div>
+    <div>@Model.CurrentCustomer.Email</div>
 </div>
 <div class="row h2">
     <div class="col-4">Telefoonnummer:</div>
-    <div>@Model.PhoneNumber</div>
+    <div>@Model.CurrentCustomer.PhoneNumber</div>
 </div>
 <div class="row h2">
-    <div class="col-4">Aantal uitleningen:</div>
-    <div>@Model.Orders.Count</div>
+    <div class="col-4">Uitleningen:</div>
+    <div>@Model.CurrentCustomerOrderLines.Count</div>
 </div>
 
-@if (Model.Orders.Count > 0)
+@if (Model.CurrentCustomerOrderLines.Count > 0)
 {
-<table>
+<table class="no-border">
     <tr>
-        <th>ARTIKEL</th>
+        <th>UITLENING</th>
         <th>ID</th>
         <th>UITGELEEND OP</th>
-        <th>AANTAL UITLENINGEN</th>
+        <th>AANTAL ARTIKELEN</th>
+        <th class="no-border"></th>
     </tr>
-        @{ int i = 0;
-        foreach (var order in Model.Orders)
+    @{ int i = 0;
+        foreach (var order in Model.CurrentCustomerOrders)
         {
             var viewModel = new OrderPartialViewModel();
             viewModel.Order = order;
+            viewModel.OrderLines = Model.CurrentCustomerOrderLines.ElementAt(i);
             viewModel.Counter = ++i;
             <partial name="OrderPartial" model="viewModel" />
         }

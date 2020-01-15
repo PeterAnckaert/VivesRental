@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using VivesRental.Model;
 using VivesRental.Repository.Includes;
@@ -14,15 +16,19 @@ namespace VivesRental.WebApp.Controllers
         private readonly IArticleService _articleService;
         private readonly ICustomerService _customerService;
         private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
+        private readonly IOrderLineService _orderLineService;
         private static readonly CustomerViewModel CustomerViewModel = new CustomerViewModel();
         private static readonly ProductViewModel ProductViewModel = new ProductViewModel();
         private static readonly ArticleViewModel ArticleViewModel = new ArticleViewModel();
 
-        public MaintenanceController(IArticleService articleService, ICustomerService customerService, IProductService productService)
+        public MaintenanceController(IArticleService articleService, ICustomerService customerService, IProductService productService, IOrderService orderService, IOrderLineService orderLineService)
         {
             _articleService = articleService;
             _customerService = customerService;
             _productService = productService;
+            _orderService = orderService;
+            _orderLineService = orderLineService;
         }
 
         //IS NOG NIET VOLLEDIG JUIST. GEEN BERICHT BIJ 2 FOUTEN NA ELKAAR
@@ -65,15 +71,15 @@ namespace VivesRental.WebApp.Controllers
 
             ArticleViewModel.Articles = ArticleViewModel.SortKey switch
             {
-                SortKey.NameAsc => articles.OrderBy(a => a.Product.Name),
-                SortKey.NameDesc => articles.OrderByDescending(a => a.Product.Name),
-                SortKey.DescriptionAsc => articles.OrderBy(a => a.Product.Description),
-                SortKey.DescriptionDesc => articles.OrderByDescending(a => a.Product.Description),
-                SortKey.ArticleStatusAsc => articles.OrderBy(a => a.Status.ToString()),
-                SortKey.ArticleStatusDesc => articles.OrderByDescending(a => a.Status.ToString()),
-                SortKey.ExpiresAtAsc => articles.OrderBy(a => a.Product.RentalExpiresAfterDays),
-                SortKey.ExpiresAtDesc => articles.OrderByDescending(a => a.Product.RentalExpiresAfterDays),
-                _ => articles.OrderBy(a => a.Product.Name),
+                SortKey.NameAsc => articles.OrderBy(a => a.Product.Name).ThenBy(a => a.Id),
+                SortKey.NameDesc => articles.OrderByDescending(a => a.Product.Name).ThenByDescending(a => a.Id),
+                SortKey.DescriptionAsc => articles.OrderBy(a => a.Product.Description).ThenBy(a => a.Id),
+                SortKey.DescriptionDesc => articles.OrderByDescending(a => a.Product.Description).ThenByDescending(a => a.Id),
+                SortKey.ArticleStatusAsc => articles.OrderBy(a => a.Status.ToString()).ThenBy(a => a.Id),
+                SortKey.ArticleStatusDesc => articles.OrderByDescending(a => a.Status.ToString()).ThenByDescending(a => a.Id),
+                SortKey.ExpiresAtAsc => articles.OrderBy(a => a.Product.RentalExpiresAfterDays).ThenBy(a => a.Id),
+                SortKey.ExpiresAtDesc => articles.OrderByDescending(a => a.Product.RentalExpiresAfterDays).ThenByDescending(a => a.Id),
+                _ => articles.OrderBy(a => a.Product.Name).ThenBy(a => a.Id),
             };
 
             ProcessError(ArticleViewModel);
@@ -88,15 +94,15 @@ namespace VivesRental.WebApp.Controllers
 
             ProductViewModel.Products = ProductViewModel.SortKey switch
             {
-                SortKey.NameAsc => products.OrderBy(p => p.Name),
-                SortKey.NameDesc => products.OrderByDescending(p => p.Name),
-                SortKey.DescriptionAsc => products.OrderBy(p => p.Description),
-                SortKey.DescriptionDesc => products.OrderByDescending(p => p.Description),
-                SortKey.ManufacturerAsc => products.OrderBy(p => p.Manufacturer),
-                SortKey.ManufacturerDesc => products.OrderByDescending(p => p.Manufacturer),
-                SortKey.PublisherAsc => products.OrderBy(p => p.Publisher),
-                SortKey.PublisherDesc => products.OrderByDescending(p => p.Publisher),
-                _ => products.OrderBy(p => p.Name),
+                SortKey.NameAsc => products.OrderBy(p => p.Name).ThenBy(p => p.Id),
+                SortKey.NameDesc => products.OrderByDescending(p => p.Name).ThenByDescending(p => p.Id),
+                SortKey.DescriptionAsc => products.OrderBy(p => p.Description).ThenBy(p => p.Id),
+                SortKey.DescriptionDesc => products.OrderByDescending(p => p.Description).ThenByDescending(p => p.Id),
+                SortKey.ManufacturerAsc => products.OrderBy(p => p.Manufacturer).ThenBy(p => p.Id),
+                SortKey.ManufacturerDesc => products.OrderByDescending(p => p.Manufacturer).ThenByDescending(p => p.Id),
+                SortKey.PublisherAsc => products.OrderBy(p => p.Publisher).ThenBy(p => p.Id),
+                SortKey.PublisherDesc => products.OrderByDescending(p => p.Publisher).ThenByDescending(p => p.Id),
+                _ => products.OrderBy(p => p.Name).ThenBy(p => p.Id),
             };
             ProcessError(ProductViewModel);
 
@@ -110,15 +116,15 @@ namespace VivesRental.WebApp.Controllers
 
             CustomerViewModel.Customers = CustomerViewModel.SortKey switch
             {
-                SortKey.FirstNameAsc => customers.OrderBy(c => c.FirstName),
-                SortKey.FirstNameDesc => customers.OrderByDescending(c => c.FirstName),
-                SortKey.LastNameAsc => customers.OrderBy(c => c.LastName),
-                SortKey.LastNameDesc => customers.OrderByDescending(c => c.LastName),
-                SortKey.EmailAsc => customers.OrderBy(c => c.Email),
-                SortKey.EmailDesc => customers.OrderByDescending(c => c.Email),
-                SortKey.PhoneNumberAsc => customers.OrderBy(c => c.PhoneNumber),
-                SortKey.PhoneNumberDesc => customers.OrderByDescending(c => c.PhoneNumber),
-                _ => customers.OrderBy(c => c.FirstName),
+                SortKey.FirstNameAsc => customers.OrderBy(c => c.FirstName).ThenBy(c => c.Id),
+                SortKey.FirstNameDesc => customers.OrderByDescending(c => c.FirstName).ThenByDescending(c => c.Id),
+                SortKey.LastNameAsc => customers.OrderBy(c => c.LastName).ThenBy(c => c.Id),
+                SortKey.LastNameDesc => customers.OrderByDescending(c => c.LastName).ThenByDescending(c => c.Id),
+                SortKey.EmailAsc => customers.OrderBy(c => c.Email).ThenBy(c => c.Id),
+                SortKey.EmailDesc => customers.OrderByDescending(c => c.Email).ThenByDescending(c => c.Id),
+                SortKey.PhoneNumberAsc => customers.OrderBy(c => c.PhoneNumber).ThenBy(c => c.Id),
+                SortKey.PhoneNumberDesc => customers.OrderByDescending(c => c.PhoneNumber).ThenByDescending(c => c.Id),
+                _ => customers.OrderBy(c => c.FirstName).ThenBy(c => c.Id),
             };
 
             ProcessError(CustomerViewModel);
@@ -212,7 +218,15 @@ namespace VivesRental.WebApp.Controllers
         {
             if (CustomerViewModel.CurrentCustomer != null)
             {
-                return View(CustomerViewModel.CurrentCustomer);
+                CustomerViewModel.CurrentCustomerOrderLines = new List<IOrderedEnumerable<OrderLine>>();
+                CustomerViewModel.CurrentCustomerOrders = _orderService.FindByCustomerIdResult(CustomerViewModel.CurrentCustomer.Id).OrderByDescending(o => o.CreatedAt);
+                foreach (var order in CustomerViewModel.CurrentCustomerOrders)
+                {
+                    var orderLines = _orderLineService.FindByOrderId(order.Id).OrderBy(ol => ol.RentedAt);
+                    CustomerViewModel.CurrentCustomerOrderLines.Add(orderLines);
+                }
+
+                return View(CustomerViewModel);
             }
             else
             {
