@@ -55,26 +55,28 @@
 
                 @foreach (var article in Model.Articles)
                 {
-                    <form method="GET" class="col-12" asp-action="SetCurrentArticle">
+                    <form method="POST" class="col-12" asp-action="SetCurrentArticle">
                         <partial name="ArticlePartial" model="article" />
                     </form>
                 }
             </div>
         </div>
-        <form method="GET" class="col-12">
-            <div class="row" style="margin-bottom: 1rem;">
-                <div class="h1 col-8">Vul hier alle aanpassingen in</div>
-                <div class="col-2">
-                    @if (Model.CurrentArticle != null)
-                    {
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+            <div class="col-2">
+                @if (Model.CurrentArticle != null)
+                {
+                    <form method="GET" class="col-12">
                         <input type="submit" value="Details" asp-action="ArticleDetail" class="col-12 detail-btn" />
-                    }
-                </div>
-                <div class="col-2">
-                    <input type="submit" value="Wis" asp-action="ClearCurrentArticle" class="col-12 wis-btn" />
-                </div>
+                    </form>
+                }
             </div>
-        </form>
+            <div class="col-2">
+                <form method="POST" class="col-12">
+                    <input type="submit" value="Wis" asp-action="ClearCurrentArticle" class="col-12 wis-btn" />
+                </form>
+            </div>
+        </div>
         @if (Model.Error != String.Empty)
         {
             <div class="error-field">
@@ -109,39 +111,39 @@
                         </select>
                     }
                 }
-            <select name="Status" class="col-2 my-table-button table-row color-col-3">
-                @{
-                    var values = Enum.GetNames(typeof(ArticleStatus));
-                    foreach (var status in values)
-                    {
-                        var statusColor = status switch
+                <select name="Status" class="col-2 my-table-button table-row color-col-3">
+                    @{
+                        var values = Enum.GetNames(typeof(ArticleStatus));
+                        foreach (var status in values)
                         {
-/*
-                            ArticleStatus.Normal.ToString("F") => "green",
-                            Enum.GetName(typeof(ArticleStatus), ArticleStatus.Normal) => "green",
-*/
-                            "Normal" => StatusColor.Normal,
-                            "Broken" => StatusColor.Broken,
-                            "Destroyed" => StatusColor.Destroyed,
-                            "InRepair" => StatusColor.InRepair,
-                            "Lost" => StatusColor.Lost,
-                            "Pending" => StatusColor.Pending,
-                            _ => StatusColor.Pending
-                        };
-                        var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
+                            var statusColor = status switch
+                            {
+                                /*
+                                                            ArticleStatus.Normal.ToString("F") => "green",
+                                                            Enum.GetName(typeof(ArticleStatus), ArticleStatus.Normal) => "green",
+                                */
+                                "Normal" => StatusColor.Normal,
+                                "Broken" => StatusColor.Broken,
+                                "Destroyed" => StatusColor.Destroyed,
+                                "InRepair" => StatusColor.InRepair,
+                                "Lost" => StatusColor.Lost,
+                                "Pending" => StatusColor.Pending,
+                                _ => StatusColor.Unknown
+                            };
+                            var stringColor = "#" + statusColor.ToString("X").Substring(2, 6);
 
-                        if (Model.CurrentArticle != null && status == Model.CurrentArticle.Status.ToString())
-                        {
-                            <option selected value="@status" style="background-color: @stringColor;">@status</option>
+                            if (Model.CurrentArticle != null && status == Model.CurrentArticle.Status.ToString())
+                            {
+                                <option selected value="@status" style="background-color: @stringColor;">@status</option>
+                            }
+                            else
+                            {
+                                <option value="@status" style="background-color: @stringColor;">@status</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@status" style="background-color: @stringColor;">@status</option>
-                        }
+
                     }
-
-                }
-            </select>
+                </select>
                 @if (Model.CurrentArticle == null)
                 {
                     <input type="number" min="1" step="1" name="Aantal" placeholder="Aantal artikelen" value="" class="col-2 my-table-button table-row color-col-5" />

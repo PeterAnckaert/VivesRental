@@ -126,7 +126,7 @@ namespace VivesRental.WebApp.Controllers
             return View(CustomerViewModel);
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult SetCurrentCustomer(Customer currentCustomer)
         {
             CustomerViewModel.CurrentCustomer = currentCustomer;
@@ -195,7 +195,10 @@ namespace VivesRental.WebApp.Controllers
                 {
                     CustomerViewModel.Error = "Aanpassen van de klantgegevens is mislukt";
                 }
-                CustomerViewModel.CurrentCustomer = null;
+                else
+                {
+                    CustomerViewModel.CurrentCustomer = null;
+                }
             }
             else
             {
@@ -218,7 +221,7 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("Customers");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult ClearCurrentCustomer()
         {
             CustomerViewModel.CurrentCustomer = null;
@@ -232,7 +235,7 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("Customers");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult SetCurrentProduct(Product currentProduct)
         {
             ProductViewModel.CurrentProduct = currentProduct;
@@ -330,7 +333,7 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("Products");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult ClearCurrentProduct()
         {
             ProductViewModel.CurrentProduct = null;
@@ -344,7 +347,7 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("Products");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult SetCurrentArticle(Article currentArticle)
         {
             ArticleViewModel.CurrentArticle = currentArticle;
@@ -429,7 +432,10 @@ namespace VivesRental.WebApp.Controllers
                 {
                     ArticleViewModel.Error = "Aanpassen van de artikelgegevens is mislukt";
                 }
-                ArticleViewModel.CurrentArticle = null;
+                else
+                {
+                    ArticleViewModel.CurrentArticle = null;
+                }
             }
             else
             {
@@ -452,7 +458,7 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("Articles");
         }
 
-        [HttpGet]
+        [HttpPost]
         public IActionResult ClearCurrentArticle()
         {
             ArticleViewModel.CurrentArticle = null;

@@ -13,5 +13,6 @@ namespace VivesRental.WebApp.Models
     InRepair = 0XF0E68C,
     Lost = 0XEE82EE,
     Pending = 0XFFFFFF,
+    Unknown = 0XFFFFFF
     }
 }

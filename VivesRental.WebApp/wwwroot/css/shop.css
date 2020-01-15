@@ -3,21 +3,18 @@
     background-color: inherit;
     border-radius: 0;
     padding: 0.6rem;
-    margin: 0;
-    box-shadow: none;
-}
-/*
-    .dropdown-item:nth-child(odd) {
-        color: lightskyblue;
-        background-color: darkslategray;
-    }
-
-.dropdown-item:nth-child(odd):hover {
-    color: var(--dark);
-    background-color: var(--light);
 }
 
-    */
+.btn-rent {
+    background-color: cyan;
+    padding: 1rem;
+    margin: 2rem;
+    border-radius: 10rem;
+}
+
+.no-border {
+    border: 0px;
+}
 
 .checkered {
     color: darkslategray;
@@ -37,6 +34,11 @@
     .checkered-rev:nth-child(odd) {
         color: darkslategray;
         background-color: lightskyblue;
+}
+
+td a {
+    box-shadow: none;
+    color: var(--dark);
 }
 
 

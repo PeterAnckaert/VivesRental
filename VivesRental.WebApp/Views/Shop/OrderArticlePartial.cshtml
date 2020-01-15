@@ -1,8 +1,13 @@
-﻿@model VivesRental.Model.Article
+﻿@model OrderArticlePartialViewModel
 
 <tr>
-    <td class="color-col-4 checkered">@Model.Id</td>
-    <td class="color-col-3 checkered">@Model.Product.Name</td>
-    <td class="color-col-2 checkered">@Model.Product.Description</td>
-    <td class="color-col-1 checkered">@Model.Product.RentalExpiresAfterDays</td>
+    <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Id</td>
+    <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Product.Name</td>
+    <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Product.Description</td>
+    <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Product.RentalExpiresAfterDays</td>
+    <td class="no-border">
+        <a href="RemoveSelectedArticle?id=@Model.Article.Id">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+    </td>
 </tr>

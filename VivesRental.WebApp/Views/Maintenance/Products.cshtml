@@ -59,27 +59,29 @@
 
                 @foreach (var product in Model.Products)
                 {
-                    <form method="GET" class="col-12" asp-action="SetCurrentProduct">
+                    <form method="POST" class="col-12" asp-action="SetCurrentProduct">
                         <partial name="ProductPartial" model="product" />
                     </form>
                 }
             </div>
         </div>
-        <form method="GET" class="col-12">
-            <div class="row" style="margin-bottom: 1rem;">
-                <div class="h1 col-8">Vul hier alle aanpassingen in</div>
-                <div class="col-2">
-                    @if (Model.CurrentProduct != null)
-                    {
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1 col-8">Vul hier alle aanpassingen in</div>
+            <div class="col-2">
+                @if (Model.CurrentProduct != null)
+                {
+                    <form method="GET" class="col-12">
                         <input type="hidden" name="Id" value="@(Model.CurrentProduct == null ? "" : Model.CurrentProduct.Id.ToString())" />
                         <input type="submit" value="Details" asp-action="ProductDetail" class="col-12 detail-btn" />
-                    }
-                </div>
-                <div class="col-2">
-                    <input type="submit" value="Wis" asp-action="ClearCurrentProduct" class="col-12 wis-btn" />
-                </div>
+                    </form>
+                }
             </div>
-        </form>
+            <div class="col-2">
+                <form method="POST" class="col-12">
+                    <input type="submit" value="Wis" asp-action="ClearCurrentProduct" class="col-12 wis-btn" />
+                </form>
+            </div>
+        </div>
         @if (Model.Error != String.Empty)
         {
             <div class="error-field">

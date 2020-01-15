@@ -17,7 +17,7 @@
                 @foreach (var customer in @Model.Customers)
                 {
                     <div class="checkered">
-                        <form method="GET" class="col-12" asp-action="SelectCustomer">
+                        <form method="POST" class="col-12" asp-action="SelectCustomer">
                             <input type="hidden" name="Id" value="@customer.Id" />
                             <button class="my-btn dropdown-item" type="submit">
                                 @{ string name = $"{@customer.FirstName} {@customer.LastName}"; }
@@ -35,36 +35,65 @@
                 Kies een artikel
             </button>
             <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
-                @foreach (var article in @Model.Articles)
-                {
-                    <div class="checkered">
-                        <form method="GET" class="col-12" asp-action="SelectArticle">
-                            <input type="hidden" name="Id" value="@article.Id" />
-                            <button class="my-btn dropdown-item" type="submit">
-                                <div class="float-left">@article.Product.Name</div>
-                                <div class="float-right">@article.ProductId</div>
-                            </button>
-                        </form>
-                    </div>
+                @{
+                    foreach (var article in @Model.Articles)
+                    {
+                        var isAlreadySelected = false;
+                        foreach (var selected in @Model.SelectedArticles)
+                        {
+                            if (article.Id == selected.Id)
+                            {
+                                isAlreadySelected = true;
+                                break;
+                            }
+                        }
+                        if (!isAlreadySelected)
+                        {
+                            <div class="checkered">
+                                <form method="POST" class="col-12" asp-action="SelectArticle">
+                                    <input type="hidden" name="Id" value="@article.Id" />
+                                    <button class="my-btn dropdown-item" type="submit">
+                                        <div class="float-left">@article.Product.Name</div>
+                                        <div class="float-right">@article.Id</div>
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                    }
                 }
             </div>
         </div>
         @if (Model.SelectedArticles.Count > 0)
         {
-            <table class="col-12">
-                <tr>
-                    <th class="checkered-rev">ID</th>
-                    <th class="checkered-rev">NAAM</th>
-                    <th class="checkered-rev">OMSCHRIJVING</th>
-                    <th class="checkered-rev">TERMIJN</th>
-                </tr>
-                @{foreach (var article in Model.SelectedArticles)
-                    {
-                        <partial name="OrderArticlePartial" model="article" />
+            <div class="row">
+                <table class="col-12 no-border">
+                    <tr>
+                        <th class="checkered-rev">ID</th>
+                        <th class="checkered-rev">NAAM</th>
+                        <th class="checkered-rev">OMSCHRIJVING</th>
+                        <th class="checkered-rev">TERMIJN</th>
+                        <th class="no-border"></th>
+                    </tr>
+                    @{int i = 0;
+                        foreach (var article in Model.SelectedArticles)
+                        {
+                            var viewModel = new OrderArticlePartialViewModel();
+                            viewModel.Article = article;
+                            viewModel.Counter = i++;
+                            <partial name="OrderArticlePartial" model="viewModel" />
+                        }
                     }
-                }
-            </table>
+                </table>
+            </div>
+            @if (Model.SelectedCustomer != null)
+            {
+                <form method="POST">
+                    <input type="submit" asp-action="Rent" class="btn-rent col-11" value="LEEN BOVENSTAANDE ARTIKELEN UIT"/>
+                </form>
+            }
         }
-        <div>Aantal: @Model.SelectedArticles.Count</div>
+        <div class="row">
+            <h3>Aantal geselecteerde items: @Model.SelectedArticles.Count</h3>
+        </div>
     </div>
 </body>

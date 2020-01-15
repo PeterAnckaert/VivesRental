@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using VivesRental.Model;
@@ -35,6 +36,20 @@ namespace VivesRental.WebApp.Controllers
             return View(CheckOutViewModel);
         }
 
+        public IActionResult Rent()
+        {
+            var order = _orderService.Create(CheckOutViewModel.SelectedCustomer.Id);
+            IList<Guid> articleIds = new List<Guid>();
+            foreach (var article in CheckOutViewModel.SelectedArticles)
+            {
+                articleIds.Add(article.Id);
+            }
+            _orderLineService.Rent(order.Id,articleIds);
+            CheckOutViewModel.SelectedCustomer = null;
+            CheckOutViewModel.SelectedArticles = new List<Article>();
+            return RedirectToAction("CheckOut");
+        }
+
         public IActionResult SelectCustomer(Guid id)
         {
             CheckOutViewModel.SelectedCustomer = _customerService.Get(id);
@@ -45,6 +60,22 @@ namespace VivesRental.WebApp.Controllers
         {
             var article = _articleService.Get(id, new ArticleIncludes {Product = true});
             CheckOutViewModel.SelectedArticles.Add(article);
+            return RedirectToAction("CheckOut");
+        }
+
+        public IActionResult RemoveSelectedArticle(Guid id)
+        {
+/*            var article = _articleService.Get(id, new ArticleIncludes { Product = true });
+            CheckOutViewModel.SelectedArticles.Remove(article);
+            return RedirectToAction("CheckOut");*/
+            foreach (var article in CheckOutViewModel.SelectedArticles)
+            {
+                if (article.Id.Equals(id))
+                {
+                    CheckOutViewModel.SelectedArticles.Remove(article);
+                    break;
+                }
+            }
             return RedirectToAction("CheckOut");
         }
     }
