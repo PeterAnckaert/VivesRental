@@ -1,17 +1,17 @@
 ﻿@using VivesRental.Model
-@model Article
+@model ArticleViewModel
 @{
     ViewData["Title"] = "Artikeldetail";
 }
 
 <div class="row" style="align-items: baseline">
     <div class="col-3 h1">Detail van</div>
-    <div class="col-9 h3">@Model.Id</div>
+    <div class="col-9 h3">@Model.CurrentArticle.Id</div>
 </div>
-<div class="row h2" style="align-items: center">
+<div class="row h2 align-items-center">
     <div class="col-4">Status:</div>
     @{
-        var statusColor = Model.Status switch
+        var statusColor = Model.CurrentArticle.Status switch
         {
             ArticleStatus.Normal => StatusColor.Normal,
             ArticleStatus.Broken => StatusColor.Broken,
@@ -20,61 +20,56 @@
             ArticleStatus.Lost => StatusColor.Lost,
             ArticleStatus.Pending => StatusColor.Pending,
             _ => StatusColor.Pending
-            };
-        var stringColor = "#"+statusColor.ToString("X").Substring(2,6);
+        };
+        var stringColor = "#" + statusColor.ToString("X").Substring(2, 6);
     }
-    <div class="rounded-pill border border-dark" style="background-color: @stringColor; padding: 1rem;">@Model.Status</div>
+    <div class="rounded-pill border border-dark" style="background-color: @stringColor; padding: 1rem;">@Model.CurrentArticle.Status</div>
 </div>
-<div class="row h2">
+<div class="row h2 align-items-baseline">
     <div class="col-4">Product id:</div>
-    <div>@Model.ProductId</div>
+    <div class="h3">@Model.CurrentArticle.ProductId</div>
 </div>
 <div class="row h2">
     <div class="col-4">Produktnaam:</div>
-    <div>@Model.Product.Name</div>
+    <div>@Model.CurrentArticle.Product.Name</div>
 </div>
 <div class="row h2">
     <div class="col-4">Omschrijving:</div>
-    <div>@Model.Product.Description</div>
+    <div>@Model.CurrentArticle.Product.Description</div>
 </div>
 <div class="row h2">
     <div class="col-4">Termijn:</div>
-    <div>@Model.Product.RentalExpiresAfterDays dagen</div>
+    <div>@Model.CurrentArticle.Product.RentalExpiresAfterDays dagen</div>
 </div>
 <div class="row h2">
     <div class="col-4">Produktfabrikant:</div>
-    <div>@Model.Product.Manufacturer</div>
+    <div>@Model.CurrentArticle.Product.Manufacturer</div>
 </div>
 <div class="row h2">
     <div class="col-4">Produktuitgever:</div>
-    <div>@Model.Product.Publisher</div>
+    <div>@Model.CurrentArticle.Product.Publisher</div>
 </div>
 <div class="row h2">
-    <div class="col-4">??Orderlines??:</div>
-    <div>@Model.OrderLines.Count</div>
+    <div class="col-4">Uitleningen:</div>
+    <div>@Model.OrderLines.Count()</div>
 </div>
 
-@if (Model.OrderLines.Count > 0)
+@if (Model.OrderLines.Any())
 {
-    <table>
-        <tr>
-            <th>??</th>
-            <th>??</th>
-            <th>??</th>
-            <th>??</th>
-            @{
-                /*
-                    </tr>
-                    @{ int i = 0;
-                        foreach (var order in Model.OrderLines)
-                        {
-                            var viewModel = new OrderLinesPartialViewModel();
-                            viewModel.OrderLines = order;
-                            viewModel.Counter = ++i;
-                            <partial name="OrderLinesPartial" model="viewModel" />
-                        }
-
-                    }*/
-            }
-    </table>
+<table>
+    <tr>
+        <th>UITGELEEND OP</th>
+        <th>TERUGGEBRACHT OP</th>
+        <th>UITERSTE TERUGBRENGDATUM</th>
+        <th>NAAM</th>
+    </tr>
+    @{foreach (var order in Model.OrderLines)
+        {
+            <td>@order.RentedAt</td>
+            <td>@order.ReturnedAt</td>
+            <td>@order.ExpiresAt</td>
+            <td>@order.ProductName</td>
+        }
+    }
+</table>
 }

@@ -463,7 +463,22 @@ namespace VivesRental.WebApp.Controllers
         {
             if (ArticleViewModel.CurrentArticle != null)
             {
-                return View(ArticleViewModel.CurrentArticle);
+                IList<OrderLine> orderLineList = new List<OrderLine>();
+                var orders = _orderService.All();
+                foreach (var order in orders)
+                {
+                    var orderLines = _orderLineService.FindByOrderId(order.Id);
+                    foreach (var orderLine in orderLines)
+                    {
+                        if (orderLine.ArticleId == ArticleViewModel.CurrentArticle.Id)
+                        {
+                            orderLineList.Add(orderLine);
+                        }
+                    }
+                }
+                ArticleViewModel.OrderLines = orderLineList.OrderByDescending(ol => ol.RentedAt);
+
+                return View(ArticleViewModel);
             }
             else
             {
