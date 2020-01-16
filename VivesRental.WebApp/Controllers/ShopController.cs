@@ -16,6 +16,7 @@ namespace VivesRental.WebApp.Controllers
         private readonly IOrderService _orderService;
         private readonly IOrderLineService _orderLineService;
         private static readonly CheckOutViewModel CheckOutViewModel = new CheckOutViewModel();
+        private static readonly CheckInViewModel CheckInViewModel = new CheckInViewModel();
 
         public ShopController(IArticleService articleService, ICustomerService customerService, IOrderService orderService, IOrderLineService orderLineService)
         {
@@ -27,7 +28,8 @@ namespace VivesRental.WebApp.Controllers
 
         public IActionResult CheckIn()
         {
-            return View();
+            CheckInViewModel.Articles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
+            return View(CheckInViewModel);
         }
         public IActionResult CheckOut()
         {

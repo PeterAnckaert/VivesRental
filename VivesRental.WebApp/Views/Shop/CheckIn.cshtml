@@ -1,7 +1,32 @@
-﻿
+﻿@model CheckInViewModel
+
 @{
     ViewData["Title"] = "CheckIn";
 }
 
-<h1>CheckIn</h1>
-
+<body class="color-check-in">
+    <div class="container">
+        <div class="row" style="margin-bottom: 1rem;">
+            <div class="h1">Artikelen terugbrengen naar VivesRental</div>
+        </div>
+        <div class="row dropdown h3 col-12">
+            <button class="my-btn color-article dropdown-toggle col-12" type="button" id="dropdownArticle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Kies een artikel
+            </button>
+            <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
+                @foreach (var article in @Model.Articles)
+                {
+                    <div class="checkered">
+                        <form method="POST" class="col-12" asp-action="SelectArticle">
+                            <input type="hidden" name="Id" value="@article.Id" />
+                            <button class="my-btn dropdown-item" type="submit">
+                                <div class="float-left">@article.Product.Name</div>
+                                <div class="float-right">@article.Id</div>
+                            </button>
+                        </form>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</body>
