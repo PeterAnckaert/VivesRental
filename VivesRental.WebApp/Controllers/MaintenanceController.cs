@@ -219,7 +219,7 @@ namespace VivesRental.WebApp.Controllers
             if (CustomerViewModel.CurrentCustomer != null)
             {
                 CustomerViewModel.CurrentCustomerOrderLines = new List<IOrderedEnumerable<OrderLine>>();
-                CustomerViewModel.CurrentCustomerOrders = _orderService.FindByCustomerIdResult(CustomerViewModel.CurrentCustomer.Id).OrderByDescending(o => o.CreatedAt);
+                CustomerViewModel.CurrentCustomerOrders = _orderService.FindByCustomerIdResult(CustomerViewModel.CurrentCustomer.Id).OrderBy(o => o.CreatedAt);
                 foreach (var order in CustomerViewModel.CurrentCustomerOrders)
                 {
                     var orderLines = _orderLineService.FindByOrderId(order.Id).OrderBy(ol => ol.RentedAt);

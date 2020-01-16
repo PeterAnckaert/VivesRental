@@ -1,16 +1,41 @@
 ﻿@model OrderPartialViewModel
 
-<tr>
-    <td>@Model.Counter</td>
-    <td>@Model.Order.Id</td>
-    <td>@Model.Order.CreatedAt</td>
-    <td>@Model.Order.NumberOfOrderLines</td>
-    <td class="no-border">
-        <a data-toggle="modal" data-target="#@Model.Order.Id">
-            <i class="fas fa-info-circle fa-3x"></i>
-        </a>
-    </td>
-</tr>
+    <tr>
+        @{
+            string tooltip = $"<div><b>ID</b><div>{@Model.Order.Id}</div></div>" +
+                             $"<div><b>NAAM</b><div>{@Model.Order.CustomerFirstName} {@Model.Order.CustomerLastName}</div></div>" +
+                             $"<div><i class=\"fas fa-at\"></i> : {@Model.Order.CustomerEmail}</div>" +
+                             $"<div><i class=\"fas fa-phone-alt\"></i> : {@Model.Order.CustomerPhoneNumber}</div>" +
+                             $"<div><b>UITLEENDATUM</b><div>{@Model.Order.CreatedAt.ToShortDateString()}</div></div>" +
+                             $"<div><b>BINNENGEBRACHT</b><div>{(@Model.Order.ReturnedAt.HasValue?@Model.Order.ReturnedAt.Value.ToShortDateString():"-")}</div></div>" +
+                             $"<div><b>AANTAL ARTIKELEN</b><div>{@Model.Order.NumberOfOrderLines}</div></div>";
+
+            if (@Model.Order.NumberOfOrderLines > 0)
+            {
+                tooltip = tooltip +
+                          $"<p></p><p></p>";
+                var i = 0;
+                foreach (var orderline in Model.OrderLines)
+                {
+                    tooltip = tooltip +
+                              $"<div><b>ARTIKEL {++i}</b><div>{@orderline.ProductName}</div></div>" +
+                              $"<div><b>UIT:</b> {@orderline.RentedAt.ToShortDateString()}</div>" +
+                              $"<div><b>TERUG:</b> {(@orderline.ReturnedAt.HasValue?@orderline.ReturnedAt.Value.ToShortDateString():"-")}</div>" +
+                              $"<div><b>UITERST OP:</b> {@orderline.ExpiresAt.ToShortDateString()}</div>" +
+                              $"<p></p>";
+                }
+            }
+            <td data-toggle="tooltip" placement="top" data-html="true" title="@tooltip">@Model.Counter</td>
+            <td>@Model.Order.Id</td>
+            <td>@Model.Order.CreatedAt</td>
+            <td>@Model.Order.NumberOfOrderLines</td>
+            <td class="no-border">
+                <a data-toggle="modal" data-target="#@Model.Order.Id">
+                    <i class="fas fa-info-circle fa-3x"></i>
+                </a>
+            </td>
+        }
+        </tr>
 
 <div class="modal fade" id="@Model.Order.Id" tabindex="-1" role="dialog" aria-labelledby="orderLineLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -48,7 +73,6 @@
                         </div>
                         <hr />
                     }
-
                 }
             </div>
             <div class="modal-footer">

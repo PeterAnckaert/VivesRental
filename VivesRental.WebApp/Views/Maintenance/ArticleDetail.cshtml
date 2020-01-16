@@ -56,20 +56,27 @@
 
 @if (Model.OrderLines.Any())
 {
-<table>
-    <tr>
-        <th>UITGELEEND OP</th>
-        <th>TERUGGEBRACHT OP</th>
-        <th>UITERSTE TERUGBRENGDATUM</th>
-        <th>NAAM</th>
-    </tr>
-    @{foreach (var order in Model.OrderLines)
-        {
-            <td>@order.RentedAt</td>
-            <td>@order.ReturnedAt</td>
-            <td>@order.ExpiresAt</td>
-            <td>@order.ProductName</td>
+    <table>
+        <tr>
+            <th>UITGELEEND OP</th>
+            <th>TERUGGEBRACHT OP</th>
+            <th>UITERSTE TERUGBRENGDATUM</th>
+        </tr>
+        @{foreach (var orderLine in Model.OrderLines)
+          {
+              string tooltip = $"<div><b>NAAM</b><div>{orderLine.ProductName}</div></div>" +
+                               $"<div><b>OMSCHRIJVING</b><div>{orderLine.ProductDescription}</div></div>" +
+                               $"<div><b>UITGELEEND OP</b><div>{orderLine.RentedAt}</div></div>" +
+                               $"<div><b>TERUGGEBRACHT OP</b><div>{(orderLine.ReturnedAt.HasValue?orderLine.ReturnedAt.ToString():"-")}</div></div>" +
+                               $"<div><b>UITERSTE TERUGBRENGDATUM</b><div>{orderLine.ExpiresAt}</div></div>" +
+                               $"<div><b>ORDER ID</b><div>{orderLine.OrderId}</div></div>" + 
+                               $"<div><b>ORDERLINE ID</b><div>{orderLine.Id}</div></div>";
+                <tr data-toggle="tooltip" placement="auto left" data-html="true" title="@tooltip">
+                    <td>@orderLine.RentedAt.ToShortDateString()</td>
+                    <td>@(orderLine.ReturnedAt.HasValue?@orderLine.ReturnedAt.Value.ToShortDateString():"-")</td>
+                    <td>@orderLine.ExpiresAt.ToShortDateString()</td>
+                </tr>
+            }
         }
-    }
-</table>
+    </table>
 }
