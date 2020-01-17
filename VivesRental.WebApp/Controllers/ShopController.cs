@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using VivesRental.Model;
 using VivesRental.Repository.Includes;
 using VivesRental.Services.Contracts;
@@ -25,12 +27,39 @@ namespace VivesRental.WebApp.Controllers
             _orderService = orderService;
             _orderLineService = orderLineService;
         }
+        private void UpdateCustomerArticles()
+        {
+            CheckInViewModel.CustomerArticles = new List<Article>();
+
+            var orders = _orderService.FindByCustomerIdResult(CheckInViewModel.SelectedCustomer.Id)
+                .Where(o => o.NumberOfOrderLines > 0 && !o.ReturnedAt.HasValue);
+            foreach (var order in orders)
+            {
+                var orderLines = _orderLineService.FindByOrderId(order.Id)
+                    .Where(ol => !ol.ReturnedAt.HasValue);
+
+                foreach (var orderLine in orderLines)
+                {
+                    var article = new Article();
+                    article.Product = new Product();
+                    article.Id = (Guid)orderLine.ArticleId;
+                    article.Product.Name = orderLine.ProductName;
+                    CheckInViewModel.CustomerArticles.Add(article);
+                }
+            }
+        }
 
         [HttpGet]
         public IActionResult CheckIn()
         {
             CheckInViewModel.Customers = _customerService.All().OrderBy(c => c.LastName).ThenBy(c => c.FirstName);
-            CheckInViewModel.Articles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name).ToList();
+            CheckInViewModel.RentedArticles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
+            
+            if (CheckInViewModel.SelectedCustomer != null)
+            {
+                UpdateCustomerArticles();
+            }
+
             return View(CheckInViewModel);
         }
 
@@ -61,7 +90,7 @@ namespace VivesRental.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReturnNoCustomer(Guid id)
+        public IActionResult ReturnNoCustomerKnown(Guid id)
         {
             var orders = _orderService.All();
             foreach (var order in orders)
@@ -83,6 +112,33 @@ namespace VivesRental.WebApp.Controllers
         }
 
         [HttpPost]
+        public IActionResult ReturnCustomerKnown(Guid id)
+        {
+            var orders = _orderService.FindByCustomerIdResult(CheckInViewModel.SelectedCustomer.Id)
+                .Where(o => !o.ReturnedAt.HasValue);
+
+            foreach (var order in orders)
+            {
+                var orderLines = _orderLineService.FindByOrderId(order.Id)
+                    .Where(ol => !ol.ReturnedAt.HasValue);
+                foreach (var orderLine in orderLines)
+                {
+                    if (!orderLine.ReturnedAt.HasValue && orderLine.ArticleId == id)
+                    {
+                        if (!_orderLineService.Return(orderLine.Id, DateTime.Now))
+                        {
+                            CheckInViewModel.Error =
+                                $"Het artikel '{orderLine.ProductName} [{orderLine.ArticleId}]' kon niet worden ingechecked";
+                        }
+
+                        return RedirectToAction("CheckIn");
+                    }
+                }
+            }
+            return RedirectToAction("CheckIn");
+        }
+
+        [HttpPost]
         public IActionResult SelectCustomerCheckOut(Guid id)
         {
             CheckOutViewModel.SelectedCustomer = _customerService.Get(id);
@@ -93,13 +149,7 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult SelectCustomerCheckIn(Guid id)
         {
             CheckInViewModel.SelectedCustomer = _customerService.Get(id);
-            var orders = _orderService.FindByCustomerIdResult(CheckInViewModel.SelectedCustomer.Id)
-                .Where(o => o.NumberOfOrderLines > 0 && !o.ReturnedAt.HasValue);
-            foreach (var order in orders)
-            {
-                var orderLines = _orderLineService.FindByOrderId(order.Id);
-       //         CheckInViewModel.Articles.Add(orderLine.);
-            }
+            UpdateCustomerArticles();
             return RedirectToAction("CheckIn");
         }
 

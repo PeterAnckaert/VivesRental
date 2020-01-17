@@ -1,0 +1,28 @@
+﻿@model Exception
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ExceptionError</title>
+</head>
+<body>
+    <h1>Er heeft zich een exception voorgedaan (!!!Database niet bereikbaar!!!)</h1>
+    <h2>Message</h2>
+    <p>@Model.Message</p>
+    <h2>Data</h2>
+    <p>@Model.Data</p>
+    <h2>HResult</h2>
+    <p>@Model.HResult</p>
+    <h2>HelpLink</h2>
+    <p>@Model.HelpLink</p>
+    <h2>Source</h2>
+    <p>@Model.Source</p>
+    <h2>InnerException</h2>
+    <p>@Model.InnerException</p>
+</body>
+</html>

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using VivesRental.Services.Contracts;
@@ -28,15 +29,23 @@ namespace VivesRental.WebApp.Controllers
 
         public IActionResult Index()
         {
-
-            _homeViewModel.NbrArticles = _articleService.All().Count;
-            _homeViewModel.NbrCustomers = _customerService.All().Count;
-            _homeViewModel.NbrOrders = 0;
-            foreach (var order in _orderService.All())
+            try
             {
-                _homeViewModel.NbrOrders += _orderLineService.FindByOrderId(order.Id).Count;
+
+                _homeViewModel.NbrArticles = _articleService.All().Count;
+                _homeViewModel.NbrCustomers = _customerService.All().Count;
+                _homeViewModel.NbrOrders = 0;
+                foreach (var order in _orderService.All())
+                {
+                    _homeViewModel.NbrOrders += _orderLineService.FindByOrderId(order.Id).Count;
+                }
+
+                _homeViewModel.NbrProducts = _productService.All().Count;
             }
-            _homeViewModel.NbrProducts = _productService.All().Count;
+            catch (Exception e)
+            {
+                return RedirectToAction("ExceptionError");
+            }
             return View(_homeViewModel);
         }
 
@@ -49,6 +58,11 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult ExceptionError(Exception exception)
+        {
+            return View(exception);
         }
     }
 }

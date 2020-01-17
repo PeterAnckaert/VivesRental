@@ -16,10 +16,10 @@
                     Kies het artikel dat binnengebracht wordt
                 </button>
                 <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
-                    @foreach (var article in @Model.Articles)
+                    @foreach (var article in @Model.RentedArticles)
                     {
                         <div class="checkered">
-                            <form method="POST" class="col-12" asp-action="ReturnNoCustomer">
+                            <form method="POST" class="col-12" asp-action="ReturnNoCustomerKnown">
                                 <input type="hidden" name="Id" value="@article.Id" />
                                 <button class="my-btn dropdown-item" type="submit">
                                     <div class="float-left">@article.Product.Name</div>
@@ -54,6 +54,55 @@
                     }
                 </div>
             </div>
+            @if (Model.SelectedCustomer != null)
+            {
+                <div class="row dropdown h3 col-12">
+                    <button class="my-btn color-article dropdown-toggle col-12" type="button" id="dropdownArticle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kies het artikel dat men binnenbrengt
+                    </button>
+                    <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
+                        @foreach (var article in @Model.CustomerArticles)
+                        {
+                            <div class="checkered">
+                                <form method="POST" class="col-12" asp-action="ReturnCustomerKnown">
+                                    <input type="hidden" name="Id" value="@article.Id" />
+                                    <button class="my-btn dropdown-item" type="submit">
+                                        <div class="float-left">@article.Product.Name</div>
+                                        <div class="float-right">@article.Id</div>
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
+    @if (!String.IsNullOrEmpty(Model.Error))
+    {
+        <script>
+            $('#errorModal').modal('show')
+        </script>
+    }
 </body>
+
+<!-- Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">ERROR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>@Model.Error</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
