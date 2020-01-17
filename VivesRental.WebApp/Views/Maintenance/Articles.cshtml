@@ -1,5 +1,4 @@
-﻿@using System.Collections
-@using VivesRental.Model
+﻿@using VivesRental.Model
 @model ArticleViewModel
 @{
     ViewData["Title"] = "Artikelenbeheer";
@@ -55,9 +54,16 @@
 
                 @foreach (var article in Model.Articles)
                 {
-                    <form method="POST" class="col-12" asp-action="SetCurrentArticle">
-                        <partial name="ArticlePartial" model="article" />
-                    </form>
+            <form method="POST" class="col-12" asp-action="SetCurrentArticle">
+                @{
+                    var viewModel = new ArticlePartialViewModel {Article = article};
+                    if (Model.CurrentArticle != null)
+                    {
+                        viewModel.CurrentArticleId = Model.CurrentArticle.Id;
+                    }
+                    <partial name="ArticlePartial" model="viewModel" />
+                }
+            </form>
                 }
             </div>
         </div>
@@ -119,8 +125,8 @@
                             var statusColor = status switch
                             {
                                 /*
-                                                            ArticleStatus.Normal.ToString("F") => "green",
-                                                            Enum.GetName(typeof(ArticleStatus), ArticleStatus.Normal) => "green",
+                                ArticleStatus.Normal.ToString("F") => "green",
+                                Enum.GetName(typeof(ArticleStatus), ArticleStatus.Normal) => "green",
                                 */
                                 "Normal" => StatusColor.Normal,
                                 "Broken" => StatusColor.Broken,

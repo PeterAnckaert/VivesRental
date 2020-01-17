@@ -1,0 +1,45 @@
+﻿@model CustomerOrderPartialViewModel
+<div class="modal fade" id="modal-@Model.Order.Id.ToString().Replace("-", "")" tabindex="-1" role="dialog" aria-labelledby="orderLineLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title h5" id="orderLineLabel">
+                    <div>NAAM : @Model.Order.CustomerFirstName @Model.Order.CustomerLastName</div>
+                    <div><i class="fas fa-at"></i> : @Model.Order.CustomerEmail</div>
+                    <div><i class="fas fa-phone-alt"></i> : @Model.Order.CustomerPhoneNumber</div>
+                    <div>UITLEENDATUM : @Model.Order.CreatedAt</div>
+                    <div>AFGESLOTEN OP : @Model.Order.ReturnedAt</div>
+                    <div>AANTAL ARTIKELEN : @Model.Order.NumberOfOrderLines</div>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @if (@Model.Order.NumberOfOrderLines > 0)
+                {
+                    <div class="row font-weight-bold text-center align-middle">
+                        <div class="col-3">ARTIKEL</div>
+                        <div class="col-3">UIT</div>
+                        <div class="col-3">TERUG</div>
+                        <div class="col-3">UITERST OP</div>
+                    </div>
+                    <hr />
+                    @foreach (var orderline in Model.OrderLines)
+                    {
+                        <div class="row text-center align-items-center">
+                            <div class="col-3">@orderline.ProductName</div>
+                            <div class="col-3">@orderline.RentedAt</div>
+                            <div class="col-3">@orderline.ReturnedAt</div>
+                            <div class="col-3">@orderline.ExpiresAt</div>
+                        </div>
+                        <hr />
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluit</button>
+            </div>
+        </div>
+    </div>
+</div>

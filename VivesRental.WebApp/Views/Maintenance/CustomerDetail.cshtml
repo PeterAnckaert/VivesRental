@@ -3,7 +3,7 @@
     ViewData["Title"] = "Klantdetail";
 }
 
-<div class="row" style ="align-items: baseline">
+<div class="row" style="align-items: baseline">
     <div class="col-3 h1">Detail van</div>
     <div class="col-9 h3">@Model.CurrentCustomer.Id</div>
 </div>
@@ -30,24 +30,38 @@
 
 @if (Model.CurrentCustomerOrderLines.Count > 0)
 {
-<table class="no-border">
-    <tr>
-        <th>UITLENING</th>
-        <th>ID</th>
-        <th>UITGELEEND OP</th>
-        <th>AANTAL ARTIKELEN</th>
-        <th class="no-border"></th>
-    </tr>
-    @{ int i = 0;
+    <table class="no-border">
+        <tr>
+            <th>UITLENING</th>
+            <th>ID</th>
+            <th>UITGELEEND OP</th>
+            <th>AANTAL ARTIKELEN</th>
+            <th class="no-border"></th>
+        </tr>
+        @{ 
+            int i = 0;
+            foreach (var order in Model.CurrentCustomerOrders)
+            {
+                var viewModel = new CustomerOrderPartialViewModel();
+                viewModel.Order = order;
+                viewModel.OrderLines = Model.CurrentCustomerOrderLines.ElementAt(i);
+                viewModel.Counter = ++i;
+                <partial name="CustomerOrderPartial" model="viewModel" />
+            }
+
+        }
+    </table>
+}
+@section Modals{
+    @{
+        var modalIndex = 0;
         foreach (var order in Model.CurrentCustomerOrders)
         {
-            var viewModel = new OrderPartialViewModel();
+            var viewModel = new CustomerOrderPartialViewModel();
             viewModel.Order = order;
-            viewModel.OrderLines = Model.CurrentCustomerOrderLines.ElementAt(i);
-            viewModel.Counter = ++i;
-            <partial name="OrderPartial" model="viewModel" />
+            viewModel.OrderLines = Model.CurrentCustomerOrderLines.ElementAt(modalIndex);
+            <partial name="CustomerOrderModalPartial" model="viewModel" />
+            modalIndex++;
         }
-
     }
-</table>
 }

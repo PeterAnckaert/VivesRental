@@ -1,5 +1,4 @@
-﻿@using VivesRental.Model
-@model VivesRental.Model.Product
+﻿@model VivesRental.Model.Product
 @{
     ViewData["Title"] = "Productdetail";
 }
@@ -43,7 +42,7 @@
         @{ int i = 0;
             foreach (var article in Model.Articles)
             {
-                var viewModel = new ArticlePartialViewModel();
+                var viewModel = new ProductArticlePartialViewModel();
                 viewModel.Article = article;
                 viewModel.Counter = ++i;
                 <partial name="ProductArticlePartial" model="viewModel" />

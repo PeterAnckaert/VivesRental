@@ -1,15 +1,15 @@
-﻿@model VivesRental.Model.Product
+﻿@model ProductPartialViewModel
     <div class="form-group">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="Name" />
-        <input type="hidden" asp-for="Description" />
-        <input type="hidden" asp-for="Manufacturer" />
-        <input type="hidden" asp-for="Publisher" />
-        <input type="hidden" asp-for="RentalExpiresAfterDays" />
-        <input type="submit" asp-for="Name" class="col-2 my-table-button table-row color-col-1" />
-        <input type="submit" asp-for="Description" class="col-4 my-table-button table-row color-col-2" data-toggle="tooltip" placement=" auto right" data-html="true" title="<b>OMSCHRIJVING</b><div>@Model.Description</div>" />
-        <input type="submit" asp-for="Manufacturer" class="col-2 my-table-button table-row color-col-3" />
-        <input type="submit" asp-for="Publisher" class="col-2 my-table-button table-row color-col-4" />
-        <input type="submit" asp-for="RentalExpiresAfterDays" class="col-1 my-table-button table-row color-col-5" />
-        <input type="submit" asp-for="Articles.Count" class="col-1 my-table-button table-row color-col-6" />
+        <input type="hidden" name="Id" value="@Model.Product.Id"/>
+        <input type="hidden" name="Name"  value="@Model.Product.Name"/>
+        <input type="hidden" name="Description"  value="@Model.Product.Description"/>
+        <input type="hidden" name="Manufacturer"  value="@Model.Product.Manufacturer"/>
+        <input type="hidden" name="Publisher"  value="@Model.Product.Publisher"/>
+        <input type="hidden" name="RentalExpiresAfterDays"  value="@Model.Product.RentalExpiresAfterDays"/>
+        <input type="submit" asp-for="@Model.Product.Name" class="col-2 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-1")" />
+        <input type="submit" asp-for="@Model.Product.Description" class="col-4 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-2")" data-toggle="tooltip" placement=" auto right" data-html="true" title="<b>OMSCHRIJVING</b><div>@Model.Product.Description</div>" />
+        <input type="submit" asp-for="@Model.Product.Manufacturer" class="col-2 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-3")" />
+        <input type="submit" asp-for="@Model.Product.Publisher" class="col-2 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-4")" />
+        <input type="submit" asp-for="@Model.Product.RentalExpiresAfterDays" class="col-1 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-5")" />
+        <input type="submit" asp-for="@Model.Product.Articles.Count" class="col-1 my-table-button table-row @(Model.Product.Id==Model.CurrentProductId?"color-col-selected":"color-col-6")" />
     </div>

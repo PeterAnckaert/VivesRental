@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using VivesRental.Model;
 
@@ -11,7 +10,6 @@ namespace VivesRental.WebApp.Models
         {
             SelectedArticles = new List<Article>();
         }
-
         public IOrderedEnumerable<Customer> Customers { get; set; }
         public IOrderedEnumerable<Article> Articles { get; set; }
         public Customer SelectedCustomer { get; set; }

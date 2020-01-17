@@ -6,12 +6,16 @@
 }
 
 .btn-rent {
-    background-color: cyan;
-    padding: 1rem;
+    background-color:forestgreen;
+    padding: 5rem 1rem;
     margin: 2rem;
-    border-radius: 10rem;
+    border-radius: 3rem;
 }
 
+.title {
+    color: green;
+    font-size: 3rem;
+}
 .checkered {
     color: darkslategray;
     background-color: lightskyblue;

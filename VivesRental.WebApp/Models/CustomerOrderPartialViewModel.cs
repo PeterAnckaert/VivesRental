@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using VivesRental.Model;
 using VivesRental.Repository.Results;
 
 namespace VivesRental.WebApp.Models
 {
-    public class OrderPartialViewModel
+    public class CustomerOrderPartialViewModel
     {
         public OrderResult Order { get; set; }
         public int Counter { get; set; }

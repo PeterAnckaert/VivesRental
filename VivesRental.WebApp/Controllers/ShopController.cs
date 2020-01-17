@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using VivesRental.Model;
 using VivesRental.Repository.Includes;
@@ -26,11 +26,15 @@ namespace VivesRental.WebApp.Controllers
             _orderLineService = orderLineService;
         }
 
+        [HttpGet]
         public IActionResult CheckIn()
         {
+            CheckInViewModel.Customers = _customerService.All().OrderBy(c => c.LastName).ThenBy(c => c.FirstName);
             CheckInViewModel.Articles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
             return View(CheckInViewModel);
         }
+
+        [HttpGet]
         public IActionResult CheckOut()
         {
             CheckOutViewModel.Customers = _customerService.All().OrderBy(c => c.LastName).ThenBy(c => c.FirstName);
@@ -38,6 +42,7 @@ namespace VivesRental.WebApp.Controllers
             return View(CheckOutViewModel);
         }
 
+        [HttpPost]
         public IActionResult Rent()
         {
             var order = _orderService.Create(CheckOutViewModel.SelectedCustomer.Id);
@@ -52,24 +57,60 @@ namespace VivesRental.WebApp.Controllers
             return RedirectToAction("CheckOut");
         }
 
-        public IActionResult SelectCustomer(Guid id)
+        [HttpPost]
+        public IActionResult Return(Guid id)
+        {
+            var orders = _orderService.All();
+            foreach (var order in orders)
+            {
+                var orderLines = _orderLineService.FindByOrderId(order.Id);
+                foreach (var orderLine in orderLines)
+                {
+                    if (orderLine.ArticleId == id)
+                    {
+                        _orderLineService.Return(orderLine.Id, DateTime.Now);
+                        if (_orderLineService.FindByOrderId(order.Id).Count == 0)
+                        {
+                            _orderService.Return(order.Id, DateTime.Now);
+                        }
+                        return RedirectToAction("CheckIn");
+                    }
+                }
+            }
+            return RedirectToAction("CheckIn");
+        }
+
+        [HttpPost]
+        public IActionResult SelectCustomerCheckOut(Guid id)
         {
             CheckOutViewModel.SelectedCustomer = _customerService.Get(id);
             return RedirectToAction("CheckOut");
         }
-        
+
+        [HttpPost]
+        public IActionResult SelectCustomerCheckIn(Guid id)
+        {
+            CheckInViewModel.SelectedCustomer = _customerService.Get(id);
+            return RedirectToAction("CheckIn");
+        }
+
+        [HttpPost]
         public IActionResult SelectArticle(Guid id)
         {
-            var article = _articleService.Get(id, new ArticleIncludes {Product = true});
+            var article = _articleService.Get(id, new ArticleIncludes { Product = true });
             CheckOutViewModel.SelectedArticles.Add(article);
             return RedirectToAction("CheckOut");
         }
 
+        [HttpGet]
         public IActionResult RemoveSelectedArticle(Guid id)
         {
-/*            var article = _articleService.Get(id, new ArticleIncludes { Product = true });
+            /*
+            var article = _articleService.Get(id, new ArticleIncludes { Product = true });
             CheckOutViewModel.SelectedArticles.Remove(article);
-            return RedirectToAction("CheckOut");*/
+            return RedirectToAction("CheckOut");
+            //BOVENSTAANDE CODE WERKT NIET, CODE HIERONDER WEL
+            */
             foreach (var article in CheckOutViewModel.SelectedArticles)
             {
                 if (article.Id.Equals(id))

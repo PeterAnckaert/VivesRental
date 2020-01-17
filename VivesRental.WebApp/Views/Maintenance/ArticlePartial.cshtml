@@ -1,7 +1,7 @@
 ﻿@using VivesRental.Model
-@model VivesRental.Model.Article
+@model ArticlePartialViewModel
 <div class="form-group">
-    @{ var statusColor = Model.Status switch
+    @{ var statusColor = Model.Article.Status switch
         {
             ArticleStatus.Normal => StatusColor.Normal,
             ArticleStatus.Broken => StatusColor.Broken,
@@ -14,18 +14,18 @@
         var stringColor = "#" + statusColor.ToString("X").Substring(2, 6);
     }
 
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="ProductId" />
-    <input type="hidden" asp-for="Status" />
-    <input type="hidden" asp-for="Product.Name" />
-    <input type="hidden" asp-for="Product.RentalExpiresAfterDays" />
-    <input type="hidden" asp-for="Product.Description" />
-    <input type="hidden" asp-for="Product.Manufacturer" />
-    <input type="hidden" asp-for="Product.Publisher" />
-    <input type="hidden" asp-for="Product.Articles" />
-    <input type="hidden" asp-for="OrderLines" />
-    <input type="submit" asp-for="Product.Name" class="col-3 my-table-button table-row color-col-1" data-toggle="tooltip" placement="auto right" data-html="true" title="<b>ID</b><div>@Model.Id</div>" />
-    <input type="submit" asp-for="Product.Description" class="col-5 my-table-button table-row color-col-2" data-toggle="tooltip" placement=" auto right" data-html="true" title="<b>OMSCHRIJVING</b><div>@Model.Product.Description</div>" />
-    <input type="submit" asp-for="Status" class="col-2 my-table-button table-row color-col-3 rounded-pill border border-dark" style="background-color: @stringColor;" />
-    <input type="submit" asp-for="Product.RentalExpiresAfterDays" class="col-2 my-table-button table-row color-col-4" />
+    <input type="hidden" name = "Id" value="@Model.Article.Id" />
+    <input type="hidden" name = "ProductId" value="@Model.Article.ProductId" />
+    <input type="hidden" name = "Status" value="@Model.Article.Status" />
+    <input type="hidden" name = "Product.Name" value="@Model.Article.Product.Name" />
+    <input type="hidden" name = "Product.RentalExpiresAfterDays" value="@Model.Article.Product.RentalExpiresAfterDays" />
+    <input type="hidden" name = "Product.Description" value="@Model.Article.Product.Description" />
+    <input type="hidden" name = "Product.Manufacturer" value="@Model.Article.Product.Manufacturer" />
+    <input type="hidden" name = "Product.Publisher" value="@Model.Article.Product.Publisher" />
+    <input type="hidden" name = "Product.Articles" value="@Model.Article.Product.Articles" />
+    <input type="hidden" name = "OrderLines" value="@Model.Article.OrderLines" />
+    <input type="submit" asp-for="@Model.Article.Product.Name" class="col-3 my-table-button table-row @(Model.Article.Id==Model.CurrentArticleId?"color-col-selected":"color-col-1")" data-toggle="tooltip" placement="auto right" data-html="true" title="<b>ID</b><div>@Model.Article.Id</div>" />
+    <input type="submit" asp-for="@Model.Article.Product.Description" class="col-5 my-table-button table-row @(Model.Article.Id==Model.CurrentArticleId?"color-col-selected":"color-col-2")" data-toggle="tooltip" placement=" auto right" data-html="true" title="<b>OMSCHRIJVING</b><div>@Model.Article.Product.Description</div>" />
+    <input type="submit" asp-for="@Model.Article.Status" class="col-2 my-table-button table-row @(Model.Article.Id==Model.CurrentArticleId?"color-col-selected":"color-col-3") rounded-pill border border-dark" style="background-color: @stringColor;" />
+    <input type="submit" asp-for="@Model.Article.Product.RentalExpiresAfterDays" class="col-2 my-table-button table-row @(Model.Article.Id==Model.CurrentArticleId?"color-col-selected":"color-col-4")" />
 </div>

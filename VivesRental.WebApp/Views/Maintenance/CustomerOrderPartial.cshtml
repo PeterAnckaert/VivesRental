@@ -1,0 +1,15 @@
+﻿@model CustomerOrderPartialViewModel
+
+    <tr>
+        @{
+            <td>@Model.Counter</td>
+            <td>@Model.Order.Id</td>
+            <td>@Model.Order.CreatedAt</td>
+            <td>@Model.Order.NumberOfOrderLines</td>
+            <td class="no-border">
+                <a data-toggle="modal" data-target="#modal-@Model.Order.Id.ToString().Replace("-", "")">
+                    <i class="fas fa-info-circle fa-3x"></i>
+                </a>
+            </td>
+        }
+        </tr>

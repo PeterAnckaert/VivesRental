@@ -59,9 +59,16 @@
 
                 @foreach (var product in Model.Products)
                 {
-                    <form method="POST" class="col-12" asp-action="SetCurrentProduct">
-                        <partial name="ProductPartial" model="product" />
-                    </form>
+            <form method="POST" class="col-12" asp-action="SetCurrentProduct">
+                @{
+                    var viewModel = new ProductPartialViewModel { Product = product };
+                    if (Model.CurrentProduct != null)
+                    {
+                        viewModel.CurrentProductId = Model.CurrentProduct.Id;
+                    }
+                    <partial name="ProductPartial" model="viewModel" />
+                }
+            </form>
                 }
             </div>
         </div>

@@ -1,12 +1,12 @@
-﻿@model VivesRental.Model.Customer
+﻿@model CustomerPartialViewModel
     <div class="form-group">
-        <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="FirstName" />
-        <input type="hidden" asp-for="LastName" />
-        <input type="hidden" asp-for="Email" />
-        <input type="hidden" asp-for="PhoneNumber" />
-        <input type="submit" asp-for="FirstName" class="col-2 my-table-button table-row color-col-1" />
-        <input type="submit" asp-for="LastName" class="col-3 my-table-button table-row color-col-2" />
-        <input type="submit" asp-for="Email" class="col-4 my-table-button table-row color-col-3" />
-        <input type="submit" asp-for="PhoneNumber" class="col-3 my-table-button table-row color-col-4" />
+        <input type="hidden" name="Id" value="@Model.Customer.Id" />
+        <input type="hidden" name="FirstName" value="@Model.Customer.FirstName" />
+        <input type="hidden" name="LastName" value="@Model.Customer.LastName" />
+        <input type="hidden" name="Email" value="@Model.Customer.Email" />
+        <input type="hidden" name="PhoneNumber" value="@Model.Customer.PhoneNumber" />
+        <input type="submit" asp-for="@Model.Customer.FirstName" class="col-2 my-table-button table-row @(Model.Customer.Id==Model.CurrentCustomerId?"color-col-selected":"color-col-1")" />
+        <input type="submit" asp-for="@Model.Customer.LastName" class="col-3 my-table-button table-row @(Model.Customer.Id==Model.CurrentCustomerId?"color-col-selected":"color-col-2")" />
+        <input type="submit" asp-for="@Model.Customer.Email" class="col-4 my-table-button table-row @(Model.Customer.Id==Model.CurrentCustomerId?"color-col-selected":"color-col-3")" />
+        <input type="submit" asp-for="@Model.Customer.PhoneNumber" class="col-3 my-table-button table-row @(Model.Customer.Id==Model.CurrentCustomerId?"color-col-selected":"color-col-4")" />
     </div>

@@ -1,5 +1,3 @@
-using System;
-
 namespace VivesRental.WebApp.Models
 {
     public class ErrorViewModel

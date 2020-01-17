@@ -74,7 +74,11 @@ textarea {
     background-color: greenyellow;
 }
 
-::placeholder {
+.color-col-selected {
+    background-color: lightblue;
+}
+
+input::placeholder {
     color: var(--light);
     opacity: 1; /* Firefox */
 }

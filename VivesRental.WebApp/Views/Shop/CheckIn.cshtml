@@ -9,23 +9,50 @@
         <div class="row" style="margin-bottom: 1rem;">
             <div class="h1">Artikelen terugbrengen naar VivesRental</div>
         </div>
-        <div class="row dropdown h3 col-12">
-            <button class="my-btn color-article dropdown-toggle col-12" type="button" id="dropdownArticle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Kies een artikel
-            </button>
-            <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
-                @foreach (var article in @Model.Articles)
-                {
-                    <div class="checkered">
-                        <form method="POST" class="col-12" asp-action="SelectArticle">
-                            <input type="hidden" name="Id" value="@article.Id" />
-                            <button class="my-btn dropdown-item" type="submit">
-                                <div class="float-left">@article.Product.Name</div>
-                                <div class="float-right">@article.Id</div>
-                            </button>
-                        </form>
-                    </div>
-                }
+        <div class="h2 text-center font-weight-bold title">Geen klant gekend</div>
+        <div class="box-dotted" style="margin: 0 1.5rem; padding: 1.7rem 0 1.2rem 1.7rem;">
+            <div class="row dropdown h3 col-12">
+                <button class="my-btn color-article dropdown-toggle col-12" type="button" id="dropdownArticle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Kies het artikel dat binnengebracht wordt
+                </button>
+                <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
+                    @foreach (var article in @Model.Articles)
+                    {
+                        <div class="checkered">
+                            <form method="POST" class="col-12" asp-action="Return">
+                                <input type="hidden" name="Id" value="@article.Id" />
+                                <button class="my-btn dropdown-item" type="submit">
+                                    <div class="float-left">@article.Product.Name</div>
+                                    <div class="float-right">@article.Id</div>
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="h2 text-center font-weight-bold title">Klant gekend</div>
+        <div class="box-dotted" style="margin: 0 1.5rem; padding: 1.7rem 0 1.2rem 1.7rem;">
+            <div class="row dropdown h3 col-12">
+                <button class="my-btn color-customer dropdown-toggle col-12" type="button" id="dropdownCustomer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @(Model.SelectedCustomer == null ? "Kies een klant" : $"{Model.SelectedCustomer.FirstName} {Model.SelectedCustomer.LastName}")
+                </button>
+                <div class="dropdown-menu col-12" aria-labelledby="dropdownCustomer">
+                    @foreach (var customer in @Model.Customers)
+                    {
+                        <div class="checkered">
+                            <form method="POST" class="col-12" asp-action="SelectCustomerCheckIn">
+                                <input type="hidden" name="Model" value="@Model" />
+                                <input type="hidden" name="Id" value="@customer.Id" />
+                                <button class="my-btn dropdown-item" type="submit">
+                                    @{ string name = $"{@customer.FirstName} {@customer.LastName}"; }
+                                    <div class="float-left">@name</div>
+                                    <div class="float-right">@customer.Id</div>
+                                </button>
+                            </form>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>

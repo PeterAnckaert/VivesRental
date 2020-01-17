@@ -54,7 +54,14 @@
                 @foreach (var customer in Model.Customers)
                 {
                     <form method="POST" class="col-12" asp-action="SetCurrentCustomer">
-                        <partial name="CustomerPartial" model="customer" />
+                        @{
+                            var viewModel = new CustomerPartialViewModel {Customer = customer};
+                            if (Model.CurrentCustomer != null)
+                            {
+                                viewModel.CurrentCustomerId = Model.CurrentCustomer.Id;
+                            }
+                            <partial name="CustomerPartial" model="viewModel" />
+                        }
                     </form>
                 }
             </div>

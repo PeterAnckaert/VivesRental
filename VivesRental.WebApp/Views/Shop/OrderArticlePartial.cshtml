@@ -1,4 +1,4 @@
-﻿@model OrderArticlePartialViewModel
+﻿@model CustomerOrderArticlePartialViewModel
 
 <tr>
     <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Id</td>
@@ -7,7 +7,7 @@
     <td class="@(@Model.Counter%2==0?"checkered":"checkered-rev")">@Model.Article.Product.RentalExpiresAfterDays</td>
     <td class="no-border">
         <a href="RemoveSelectedArticle?id=@Model.Article.Id">
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt fa-2x"></i>
         </a>
     </td>
 </tr>
