@@ -30,7 +30,7 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult CheckIn()
         {
             CheckInViewModel.Customers = _customerService.All().OrderBy(c => c.LastName).ThenBy(c => c.FirstName);
-            CheckInViewModel.Articles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
+            CheckInViewModel.Articles = _articleService.GetRentedArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name).ToList();
             return View(CheckInViewModel);
         }
 
@@ -38,7 +38,7 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult CheckOut()
         {
             CheckOutViewModel.Customers = _customerService.All().OrderBy(c => c.LastName).ThenBy(c => c.FirstName);
-            CheckOutViewModel.Articles = _articleService.GetAvailableArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
+            CheckOutViewModel.AvailableArticles = _articleService.GetAvailableArticles(new ArticleIncludes { Product = true }).OrderBy(a => a.Product.Name);
             return View(CheckOutViewModel);
         }
 
@@ -51,14 +51,17 @@ namespace VivesRental.WebApp.Controllers
             {
                 articleIds.Add(article.Id);
             }
-            _orderLineService.Rent(order.Id,articleIds);
+            if(!_orderLineService.Rent(order.Id,articleIds))
+            {
+                CheckOutViewModel.Error = "Niet alle artikelen zijn uitgechecked";
+            }
             CheckOutViewModel.SelectedCustomer = null;
             CheckOutViewModel.SelectedArticles = new List<Article>();
             return RedirectToAction("CheckOut");
         }
 
         [HttpPost]
-        public IActionResult Return(Guid id)
+        public IActionResult ReturnNoCustomer(Guid id)
         {
             var orders = _orderService.All();
             foreach (var order in orders)
@@ -66,12 +69,11 @@ namespace VivesRental.WebApp.Controllers
                 var orderLines = _orderLineService.FindByOrderId(order.Id);
                 foreach (var orderLine in orderLines)
                 {
-                    if (orderLine.ArticleId == id)
+                    if (!orderLine.ReturnedAt.HasValue && orderLine.ArticleId == id)
                     {
-                        _orderLineService.Return(orderLine.Id, DateTime.Now);
-                        if (_orderLineService.FindByOrderId(order.Id).Count == 0)
+                        if(!_orderLineService.Return(orderLine.Id, DateTime.Now))
                         {
-                            _orderService.Return(order.Id, DateTime.Now);
+                            CheckInViewModel.Error = $"Het artikel '{orderLine.ProductName} [{orderLine.ArticleId}]' kon niet worden ingechecked";
                         }
                         return RedirectToAction("CheckIn");
                     }
@@ -91,6 +93,13 @@ namespace VivesRental.WebApp.Controllers
         public IActionResult SelectCustomerCheckIn(Guid id)
         {
             CheckInViewModel.SelectedCustomer = _customerService.Get(id);
+            var orders = _orderService.FindByCustomerIdResult(CheckInViewModel.SelectedCustomer.Id)
+                .Where(o => o.NumberOfOrderLines > 0 && !o.ReturnedAt.HasValue);
+            foreach (var order in orders)
+            {
+                var orderLines = _orderLineService.FindByOrderId(order.Id);
+       //         CheckInViewModel.Articles.Add(orderLine.);
+            }
             return RedirectToAction("CheckIn");
         }
 

@@ -29,31 +29,6 @@ namespace VivesRental.WebApp.Controllers
             _orderLineService = orderLineService;
         }
 
-        //IS NOG NIET VOLLEDIG JUIST. GEEN BERICHT BIJ 2 FOUTEN NA ELKAAR
-        protected void ProcessError(CommonViewModel viewModel)
-        {
-            if (viewModel == null)
-            {
-                return;
-            }
-
-            if (viewModel.Error == null)
-            {
-                viewModel.Error = string.Empty;
-            }
-
-            if (viewModel.Error != string.Empty && viewModel.IsErrorShown)
-            {
-                viewModel.IsErrorShown = false;
-                viewModel.Error = string.Empty;
-            }
-
-            if (viewModel.Error != string.Empty && !viewModel.IsErrorShown)
-            {
-                viewModel.IsErrorShown = true;
-            }
-        }
-
         [HttpGet]
         public IActionResult Index()
         {
@@ -80,8 +55,6 @@ namespace VivesRental.WebApp.Controllers
                 _ => articles.OrderBy(a => a.Product.Name).ThenBy(a => a.Id),
             };
 
-            ProcessError(ArticleViewModel);
-
             return View(ArticleViewModel);
         }
 
@@ -102,7 +75,6 @@ namespace VivesRental.WebApp.Controllers
                 SortKey.PublisherDesc => products.OrderByDescending(p => p.Publisher).ThenByDescending(p => p.Id),
                 _ => products.OrderBy(p => p.Name).ThenBy(p => p.Id),
             };
-            ProcessError(ProductViewModel);
 
             return View(ProductViewModel);
         }
@@ -124,8 +96,6 @@ namespace VivesRental.WebApp.Controllers
                 SortKey.PhoneNumberDesc => customers.OrderByDescending(c => c.PhoneNumber).ThenByDescending(c => c.Id),
                 _ => customers.OrderBy(c => c.FirstName).ThenBy(c => c.Id),
             };
-
-            ProcessError(CustomerViewModel);
 
             return View(CustomerViewModel);
         }

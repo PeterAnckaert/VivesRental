@@ -11,8 +11,9 @@ namespace VivesRental.WebApp.Models
             SelectedArticles = new List<Article>();
         }
         public IOrderedEnumerable<Customer> Customers { get; set; }
-        public IOrderedEnumerable<Article> Articles { get; set; }
+        public IOrderedEnumerable<Article> AvailableArticles { get; set; }
         public Customer SelectedCustomer { get; set; }
         public IList<Article> SelectedArticles { get; set; }
+        public string Error { get; set; }
     }
 }

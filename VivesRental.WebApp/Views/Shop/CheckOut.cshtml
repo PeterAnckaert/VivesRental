@@ -37,7 +37,7 @@
             </button>
             <div class="dropdown-menu col-12" aria-labelledby="dropdownArticle">
                 @{
-                    foreach (var article in @Model.Articles)
+                    foreach (var article in @Model.AvailableArticles)
                     {
                         var isAlreadySelected = false;
                         foreach (var selected in @Model.SelectedArticles)

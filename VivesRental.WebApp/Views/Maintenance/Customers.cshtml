@@ -82,13 +82,14 @@
                 </form>
             </div>
         </div>
-        @if (Model.Error != String.Empty)
+        @if (!String.IsNullOrEmpty(Model.Error))
         {
             <div class="error-field">
                 <i class="fas fa-exclamation fa-2x"></i>
                 <label class="h4" style="padding: 0 1rem;">@Model.Error</label>
                 <i class="fas fa-exclamation fa-2x"></i>
             </div>
+            Model.Error = null;
         }
         <form method="POST" class="col-12">
             <div class="row box-dotted form-group">

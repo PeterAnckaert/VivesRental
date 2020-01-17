@@ -19,7 +19,7 @@
                     @foreach (var article in @Model.Articles)
                     {
                         <div class="checkered">
-                            <form method="POST" class="col-12" asp-action="Return">
+                            <form method="POST" class="col-12" asp-action="ReturnNoCustomer">
                                 <input type="hidden" name="Id" value="@article.Id" />
                                 <button class="my-btn dropdown-item" type="submit">
                                     <div class="float-left">@article.Product.Name</div>

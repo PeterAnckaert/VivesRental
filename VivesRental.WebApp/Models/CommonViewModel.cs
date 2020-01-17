@@ -4,7 +4,6 @@
     {
         public SortKey SortKey { get; set; }
         public string Error { get; set; }
-        public bool IsErrorShown { get; set; }
     }
 
     public enum SortKey
